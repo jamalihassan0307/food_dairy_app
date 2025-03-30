@@ -85,8 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FadeInUp(
               duration: const Duration(milliseconds: 800),
               child: Container(
-                height: 70,
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                height: 65,
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25),
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primaryColor.withOpacity(0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
@@ -137,10 +137,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: isSelected ? AppColors.primaryColor.withOpacity(0.1) : Colors.transparent,
                 shape: BoxShape.circle,
@@ -148,15 +149,15 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(
                 icon,
                 color: isSelected ? AppColors.primaryColor : Colors.grey,
-                size: 24,
+                size: 22,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 2),
             Text(
               label,
               style: TextStyle(
                 color: isSelected ? AppColors.primaryColor : Colors.grey,
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
               ),
             ),
