@@ -45,6 +45,10 @@ dependencies:
   shared_preferences: ^2.2.1
   font_awesome_flutter: ^10.7.0
   # uuid: ^4.3.3
+  animate_do: ^3.0.2
+  google_fonts: ^6.1.0
+  heroicons: ^0.0.1+1
+  lottie: ^2.7.0
 
 dev_dependencies:
   flutter_test:
