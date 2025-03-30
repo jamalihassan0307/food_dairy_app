@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:food_dairy_app/controller/recipe_repository.dart';
 import 'package:get/get.dart';
 
-class AddData extends StatefulWidget {
-  const AddData({super.key});
+class AddFood extends StatefulWidget {
+  const AddFood({super.key});
 
   @override
-  State<AddData> createState() => _AddDataState();
+  State<AddFood> createState() => _AddFoodState();
 }
 
-class _AddDataState extends State<AddData> {
+class _AddFoodState extends State<AddFood> {
   @override
   void initState() {
     Get.put(RecipeRepository());
