@@ -23,14 +23,14 @@ class _Page1State extends State<Page1> {
 
   final List<String> categories = [
     'All',
-    'Main Dishes',
-    'Pasta',
-    'Salads',
-    'Mexican',
     'Italian',
     'Fast Food',
     'Desserts',
     'Asian',
+    'Main Dishes',
+    'Pasta',
+    'Salads',
+    'Mexican',
   ];
 
   int selectedCategoryIndex = 0;
@@ -53,7 +53,7 @@ class _Page1State extends State<Page1> {
   void _filterRecipes() {
     setState(() {
       String searchQuery = _searchController.text.toLowerCase();
-      String selectedCategory = categories[selectedCategoryIndex].toLowerCase();
+      String selectedCategory = categories[selectedCategoryIndex];
 
       // Filter from both sources with proper typing
       List<RecipeModel> userRecipes = StaticData.yourrecipe ?? [];
@@ -61,23 +61,7 @@ class _Page1State extends State<Page1> {
       
       filteredRecipes = allRecipes.where((recipe) {
         bool matchesSearch = recipe.name.toLowerCase().contains(searchQuery);
-        bool matchesCategory = selectedCategory == 'All' || 
-                             (selectedCategory == 'Main Dishes' && 
-                              ['Chicken Parmesan', 'Hamburger'].contains(recipe.name)) ||
-                             (selectedCategory == 'Pasta' && 
-                              ['Spaghetti Bolognese', 'Pasta Alfredo'].contains(recipe.name)) ||
-                             (selectedCategory == 'Salads' && 
-                              ['Caesar Salad'].contains(recipe.name)) ||
-                             (selectedCategory == 'Mexican' && 
-                              ['Tacos'].contains(recipe.name)) ||
-                             (selectedCategory == 'Italian' && 
-                              ['Spaghetti Bolognese', 'Chicken Parmesan', 'Pasta Alfredo', 'Cheese Pizza'].contains(recipe.name)) ||
-                             (selectedCategory == 'Fast Food' && 
-                              ['Hamburger', 'Cheese Pizza'].contains(recipe.name)) ||
-                             (selectedCategory == 'Desserts' && 
-                              ['Chocolate Chip Cookies'].contains(recipe.name)) ||
-                             (selectedCategory == 'Asian' && 
-                              ['Chicken Fried Rice'].contains(recipe.name));
+        bool matchesCategory = selectedCategory == 'All' || recipe.category == selectedCategory;
         return matchesSearch && matchesCategory;
       }).toList();
     });
