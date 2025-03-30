@@ -31,20 +31,21 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  image_picker: 
-  get:
-  flex_color_scheme: 
-  button_navigation_bar:  
-  sqflite: 
-  path_provider: 
-  fluttertoast: 
-  path: ^1.8.0
-  shared_preferences:
-  font_awesome_flutter: 
+  image_picker: ^1.0.7
+  get: ^4.6.6
+  flex_color_scheme: ^7.3.1
+  google_nav_bar: ^5.0.6
+  sqflite: ^2.3.2
+  path_provider: ^2.1.2
+  fluttertoast: ^8.2.4
+  path: ^1.8.3
+  shared_preferences: ^2.2.2
+  font_awesome_flutter: ^10.7.0
+  collection: ^1.18.0
+  typed_data: ^1.3.2
 
 dev_dependencies:
   flutter_test:
