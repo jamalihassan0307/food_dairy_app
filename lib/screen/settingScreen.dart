@@ -9,6 +9,7 @@ import 'package:food_dairy_app/screen/nev_bar/profile.dart';
 import 'package:food_dairy_app/widget/constants/staticdata.dart';
 import 'package:food_dairy_app/widget/theme/app_colors.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:food_dairy_app/screen/about_us_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -195,7 +196,12 @@ class SettingsScreen extends StatelessWidget {
                         title: "About Us",
                         subtitle: "Learn more about the app",
                         color: Colors.orange,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AboutUsScreen()),
+                          );
+                        },
                       ),
                     ],
                   ),
