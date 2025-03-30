@@ -11,6 +11,7 @@ class Recipe {
   final String calories;
   final String protein;
   final String prepTime;
+
   Recipe({
     required this.id,
     required this.name,
@@ -42,7 +43,7 @@ class Recipe {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'id': id,
       'name': name,
       'description': description,

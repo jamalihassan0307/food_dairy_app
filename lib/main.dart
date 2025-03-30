@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-    import 'package:food_dairy_app/controller/sqllite.dart';
+import 'package:food_dairy_app/controller/sqllite.dart';
 import 'package:food_dairy_app/screen/home_screen.dart';
 import 'package:get/get.dart';
 
