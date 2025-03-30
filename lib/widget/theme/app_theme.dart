@@ -3,7 +3,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final mainTheme = FlexThemeData.dark().copyWith(
+ThemeData get mainTheme => FlexThemeData.dark().copyWith(
     scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
     textTheme: GoogleFonts.poppinsTextTheme().copyWith(
       bodyLarge: const TextStyle(
