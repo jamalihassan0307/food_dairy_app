@@ -36,59 +36,36 @@ class _ProfileState extends State<Profile> {
               width: width,
               color: Theme.of(context).scaffoldBackgroundColor,
               child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 20),
-                      // Header Section
-                      FadeInDown(
-                        duration: const Duration(milliseconds: 800),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Profile",
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: AppColors.textSecondaryColor,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "Update your information",
-                                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                child: Column(
+                  children: [
+                    // Top Bar with Back Button
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => Get.back(),
+                            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                          ),
+                          const Spacer(),
+                          Text(
+                            "Profile",
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryColor.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Icon(
-                                Icons.person,
-                                color: AppColors.primaryColor,
-                                size: 30,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                          const Spacer(),
+                        ],
                       ),
-                      const SizedBox(height: 30),
+                    ),
 
-                      // Profile Image Section
-                      FadeInDown(
-                        delay: const Duration(milliseconds: 200),
-                        duration: const Duration(milliseconds: 800),
-                        child: Center(
-                          child: Stack(
+                    // Profile Image and Name Section
+                    FadeInDown(
+                      duration: const Duration(milliseconds: 800),
+                      child: Column(
+                        children: [
+                          Stack(
                             children: [
                               Container(
                                 width: 120,
@@ -153,16 +130,74 @@ class _ProfileState extends State<Profile> {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 16),
+                          Text(
+                            obj.username.text.isEmpty ? "Your Name" : obj.username.text,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+
+                    // Profile Stats
+                    FadeInDown(
+                      delay: const Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 800),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildStatItem(
+                              icon: Icons.restaurant_menu,
+                              label: "Meals",
+                              value: "12",
+                            ),
+                            _buildStatItem(
+                              icon: Icons.local_fire_department,
+                              label: "Calories",
+                              value: "1,200",
+                            ),
+                            _buildStatItem(
+                              icon: Icons.fitness_center,
+                              label: "Protein",
+                              value: "60g",
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 40),
+                    ),
+                    const SizedBox(height: 30),
 
-                      // Form Fields
-                      FadeInUp(
-                        delay: const Duration(milliseconds: 400),
-                        duration: const Duration(milliseconds: 800),
+                    // Profile Information Section
+                    FadeInUp(
+                      delay: const Duration(milliseconds: 400),
+                      duration: const Duration(milliseconds: 800),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          color: AppColors.cardColor,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white.withOpacity(0.1)),
+                        ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const Text(
+                              "Profile Information",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
                             _buildTextField(
                               controller: obj.username,
                               icon: Icons.person_outline,
@@ -170,10 +205,10 @@ class _ProfileState extends State<Profile> {
                             ),
                             const SizedBox(height: 16),
                             _buildTextField(
-                              controller: obj.password,
-                              icon: Icons.lock_outline,
-                              hint: "Password",
-                              isPassword: true,
+                              controller: obj.email,
+                              icon: Icons.email_outlined,
+                              hint: "Email",
+                              keyboardType: TextInputType.emailAddress,
                             ),
                             const SizedBox(height: 16),
                             _buildTextField(
@@ -199,67 +234,136 @@ class _ProfileState extends State<Profile> {
                                 }
                               },
                             ),
-                            const SizedBox(height: 16),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Security Section
+                    FadeInUp(
+                      delay: const Duration(milliseconds: 600),
+                      duration: const Duration(milliseconds: 800),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          color: AppColors.cardColor,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white.withOpacity(0.1)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Security",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
                             _buildTextField(
-                              controller: obj.email,
-                              icon: Icons.email_outlined,
-                              hint: "Email",
-                              keyboardType: TextInputType.emailAddress,
+                              controller: obj.password,
+                              icon: Icons.lock_outline,
+                              hint: "Change Password",
+                              isPassword: true,
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 40),
+                    ),
+                    const SizedBox(height: 30),
 
-                      // Update Button
-                      FadeInUp(
-                        delay: const Duration(milliseconds: 600),
-                        duration: const Duration(milliseconds: 800),
-                        child: Center(
-                          child: InkWell(
-                            onTap: () => obj.updatedata(),
-                            child: Container(
-                              width: width * 0.8,
-                              height: 55,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    AppColors.primaryColor,
-                                    AppColors.secondaryColor,
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(30),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.primaryColor.withOpacity(0.3),
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 5),
-                                  ),
+                    // Update Button
+                    FadeInUp(
+                      delay: const Duration(milliseconds: 800),
+                      duration: const Duration(milliseconds: 800),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: InkWell(
+                          onTap: () => obj.updatedata(),
+                          child: Container(
+                            width: double.infinity,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColors.primaryColor,
+                                  AppColors.secondaryColor,
                                 ],
                               ),
-                              child: const Center(
-                                child: Text(
-                                  "Update Profile",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primaryColor.withOpacity(0.3),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: const Center(
+                              child: Text(
+                                "Update Profile",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
                 ),
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  Widget _buildStatItem({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.primaryColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Icon(
+            icon,
+            color: AppColors.primaryColor,
+            size: 24,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: AppColors.textSecondaryColor,
+            fontSize: 12,
+          ),
+        ),
+      ],
     );
   }
 
@@ -273,7 +377,7 @@ class _ProfileState extends State<Profile> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardColor,
+        color: Colors.white.withOpacity(0.05),
         borderRadius: BorderRadius.circular(15),
         border: Border.all(color: Colors.white.withOpacity(0.1)),
       ),
