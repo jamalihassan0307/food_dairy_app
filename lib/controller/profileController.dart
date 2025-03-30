@@ -9,23 +9,54 @@ import 'package:flutter/material.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get to => Get.find();
+  
   TextEditingController username = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController dob = TextEditingController();
   File? image;
-  updatedata() async {
-    if (username.text.isNotEmpty &&
-        email.text.isNotEmpty &&
-        image != null &&
-        password.text.isNotEmpty &&
-        phone.text.isNotEmpty &&
-        dob.text.isNotEmpty) {
-      String id = DateTime.now().millisecondsSinceEpoch.toString();
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadUserData();
+  }
+
+  void loadUserData() {
+    if (StaticData.model != null) {
+      username.text = StaticData.model!.username;
+      email.text = StaticData.model!.email;
+      phone.text = StaticData.model!.phone;
+      dob.text = StaticData.model!.dob;
+      // Don't load password for security reasons
+      image = File(StaticData.model!.image);
+      update();
+    }
+  }
+
+  Future<void> updatedata() async {
+    if (username.text.isEmpty ||
+        email.text.isEmpty ||
+        phone.text.isEmpty ||
+        dob.text.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Please fill all required fields!",
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        gravity: ToastGravity.BOTTOM,
+        fontSize: 17,
+        timeInSecForIosWeb: 1,
+        toastLength: Toast.LENGTH_LONG,
+      );
+      return;
+    }
+
+    try {
+      String id = StaticData.id ?? DateTime.now().millisecondsSinceEpoch.toString();
       UserModel model = UserModel(
-        password: password.text,
-        image: image!.path,
+        password: password.text.isNotEmpty ? password.text : StaticData.model!.password,
+        image: image?.path ?? StaticData.model!.image,
         username: username.text,
         id: id,
         email: email.text,
@@ -33,17 +64,26 @@ class ProfileController extends GetxController {
         dob: dob.text,
       );
 
-      await DBHelper.updateUser(
-        model,
-      );
-
+      await DBHelper.updateUser(model);
       StaticData.model = model;
       StaticData.id = id;
-      //  update();
-      // clearField();
-    } else {
+
       Fluttertoast.showToast(
-        msg: "Please fill all fields!",
+        msg: "Profile updated successfully!",
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        gravity: ToastGravity.BOTTOM,
+        fontSize: 17,
+        timeInSecForIosWeb: 1,
+        toastLength: Toast.LENGTH_LONG,
+      );
+
+      // Clear password field after successful update
+      password.clear();
+      update();
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Failed to update profile. Please try again.",
         backgroundColor: Colors.red,
         textColor: Colors.white,
         gravity: ToastGravity.BOTTOM,
@@ -60,5 +100,7 @@ class ProfileController extends GetxController {
     password.clear();
     phone.clear();
     dob.clear();
+    image = null;
+    update();
   }
 }
