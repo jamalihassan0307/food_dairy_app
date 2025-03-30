@@ -80,18 +80,18 @@ class _Page1State extends State<Page1> {
     width = MediaQuery.of(context).size.width;
 
     return GetBuilder<RecipeRepository>(
-      initState: (state) {},
-      builder: (obj) {
+        initState: (state) {},
+        builder: (obj) {
         return Container(
-          height: height,
-          width: width,
+            height: height,
+            width: width,
           color: Theme.of(context).scaffoldBackgroundColor,
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   const SizedBox(height: 20),
                   // Header Section
                   FadeInDown(
@@ -109,7 +109,7 @@ class _Page1State extends State<Page1> {
                               ),
                             ),
                             const SizedBox(height: 4),
-                            Text(
+                        Text(
                               "${StaticData.model!.username} 👋",
                               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
@@ -119,7 +119,7 @@ class _Page1State extends State<Page1> {
                         ),
                         FutureBuilder(
                           future: StaticData.assetToFile(StaticData.model!.image),
-                          builder: (BuildContext context, snapshot) {
+                            builder: (BuildContext context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
                               return const CircleAvatar(
                                 radius: 25,
@@ -129,9 +129,9 @@ class _Page1State extends State<Page1> {
                                   strokeWidth: 2,
                                 ),
                               );
-                            }
+                              }
 
-                            if (snapshot.hasError) {
+                              if (snapshot.hasError) {
                               print("Error: ${snapshot.error}");
                               return const CircleAvatar(
                                 radius: 25,
@@ -262,9 +262,9 @@ class _Page1State extends State<Page1> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                    Text(
                           "Your Recipes",
-                          style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -286,7 +286,7 @@ class _Page1State extends State<Page1> {
                   const SizedBox(height: 20),
 
                   // Recipes List
-                  Expanded(
+                    Expanded(
                     child: FadeInUp(
                       delay: const Duration(milliseconds: 800),
                       duration: const Duration(milliseconds: 800),
@@ -295,11 +295,11 @@ class _Page1State extends State<Page1> {
                       ),
                     ),
                   ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
+          );
       },
     );
   }

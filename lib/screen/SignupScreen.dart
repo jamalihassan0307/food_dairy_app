@@ -28,10 +28,10 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       body: GetBuilder<SignupController>(
         initState: (state) {
-          Get.put(SignupController());
+        Get.put(SignupController());
         }, 
         builder: (obj) {
-          return Container(
+        return Container(
             height: height,
             width: width,
             decoration: BoxDecoration(
@@ -49,7 +49,7 @@ class _SignUpState extends State<SignUp> {
                 children: [
                   // Top Image Section with Overlay
                   Stack(
-                    children: [
+                  children: [
                       // Image Container
                       Container(
                         height: height * 0.35,
@@ -174,7 +174,7 @@ class _SignUpState extends State<SignUp> {
                           duration: const Duration(milliseconds: 800),
                           child: Container(
                             width: double.infinity,
-                            height: 55,
+                        height: 55,
                             decoration: BoxDecoration(
                               gradient: const LinearGradient(
                                 colors: [AppColors.secondaryColor, Color(0xFFFF8F71)],
@@ -199,7 +199,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                               child: const Text(
                                 "Sign Up",
-                                style: TextStyle(
+                              style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
@@ -213,10 +213,10 @@ class _SignUpState extends State<SignUp> {
                           delay: const Duration(milliseconds: 1200),
                           duration: const Duration(milliseconds: 800),
                           child: Column(
-                            children: [
-                              Text(
+                      children: [
+                        Text(
                                 "By signing up, you agree to our",
-                                style: TextStyle(
+                          style: TextStyle(
                                   color: Colors.white.withOpacity(0.7),
                                   fontSize: 14,
                                 ),
@@ -225,7 +225,7 @@ class _SignUpState extends State<SignUp> {
                                 onPressed: () {},
                                 child: const Text(
                                   "Terms and Conditions",
-                                  style: TextStyle(
+                              style: TextStyle(
                                     color: AppColors.secondaryColor,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
