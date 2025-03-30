@@ -22,8 +22,6 @@ class _AddFoodState extends State<AddFood> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
     return GetBuilder<RecipeRepository>(builder: (obj) {
       return Scaffold(
         backgroundColor: AppColors.primaryColor,
@@ -72,9 +70,29 @@ class _AddFoodState extends State<AddFood> {
                             shape: BoxShape.circle,
                             color: Colors.white.withOpacity(0.1),
                             border: Border.all(color: Colors.white, width: 2),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 15,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
                           ),
                           child: obj.image == null
-                              ? const Icon(Icons.add_a_photo, color: Colors.white, size: 40)
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.add_a_photo, color: Colors.white, size: 40),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "Add Photo",
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.8),
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                )
                               : ClipOval(
                                   child: Image.file(
                                     obj.image!,
@@ -108,6 +126,57 @@ class _AddFoodState extends State<AddFood> {
                             maxLines: 3,
                           ),
                           const SizedBox(height: 15),
+                          
+                          // Category Selection
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButtonFormField<String>(
+                                value: obj.selectedCategory,
+                                decoration: InputDecoration(
+                                  hintText: "Select Category",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: 16,
+                                  ),
+                                  prefixIcon: const Icon(Icons.category, color: AppColors.primaryColor),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 15,
+                                  ),
+                                ),
+                                items: obj.categories.map((String category) {
+                                  return DropdownMenuItem<String>(
+                                    value: category,
+                                    child: Text(category),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  if (newValue != null) {
+                                    obj.setCategory(newValue);
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          
                           Row(
                             children: [
                               Expanded(
@@ -146,17 +215,35 @@ class _AddFoodState extends State<AddFood> {
                   FadeInUp(
                     delay: const Duration(milliseconds: 600),
                     duration: const Duration(milliseconds: 800),
-                    child: SizedBox(
+                    child: Container(
                       width: double.infinity,
                       height: 55,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white,
+                            Colors.white.withOpacity(0.9),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
                       child: ElevatedButton(
                         onPressed: () => obj.addRecipe(context),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          elevation: 5,
                         ),
                         child: const Text(
                           "Add Recipe",
