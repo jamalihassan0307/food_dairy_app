@@ -5,7 +5,6 @@ import 'package:food_dairy_app/model.dart/RecppeModel.dart';
 import 'package:food_dairy_app/screen/recipe_details_screen.dart';
 import 'package:food_dairy_app/widget/theme/app_colors.dart';
 import 'package:animate_do/animate_do.dart';
-// import 'package:heroicons/heroicons.dart';
 
 class LoadedRecipesWidget extends StatelessWidget {
   final List<Recipe> recipes;
