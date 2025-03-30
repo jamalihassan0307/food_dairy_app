@@ -17,6 +17,19 @@ class RecipeRepository extends GetxController {
   TextEditingController cal = TextEditingController();
   TextEditingController protein = TextEditingController();
   TextEditingController pre = TextEditingController();
+  
+  final List<String> categories = [
+    'Italian',
+    'Fast Food',
+    'Desserts',
+    'Asian',
+    'Main Dishes',
+    'Pasta',
+    'Salads',
+    'Mexican',
+  ];
+  
+  String selectedCategory = 'Main Dishes';
   int index = 0;
   File? image;
 
@@ -30,6 +43,11 @@ class RecipeRepository extends GetxController {
     }
   }
 
+  void setCategory(String category) {
+    selectedCategory = category;
+    update();
+  }
+
   Future<void> addRecipe(context) async {
     if (name.text.isNotEmpty &&
         des.text.isNotEmpty &&
@@ -39,28 +57,31 @@ class RecipeRepository extends GetxController {
         pre.text.isNotEmpty) {
       String id = DateTime.now().microsecond.toString();
       RecipeModel model = RecipeModel(
-        category: "",
-          id: id,
-          name: name.text,
-          description: des.text,
-          imageUrl: StaticData.fileToAsset(image!.path).toString(),
-          calories: cal.text,
-          protein: protein.text,
-          prepTime: pre.text);
+        category: selectedCategory,
+        id: id,
+        name: name.text,
+        description: des.text,
+        imageUrl: StaticData.fileToAsset(image!.path).toString(),
+        calories: cal.text,
+        protein: protein.text,
+        prepTime: pre.text
+      );
+      
       DBHelper.insertRecipe(model).then((value) {
         Fluttertoast.showToast(
-          msg: "Add Successfully !",
-          backgroundColor: Colors.red,
+          msg: "Recipe Added Successfully!",
+          backgroundColor: Colors.green,
           textColor: Colors.white,
           gravity: ToastGravity.BOTTOM,
           fontSize: 17,
           timeInSecForIosWeb: 1,
           toastLength: Toast.LENGTH_LONG,
         );
+        cleardata();
       });
     } else {
       Fluttertoast.showToast(
-        msg: "Fill All Fields! !",
+        msg: "Please fill all fields!",
         backgroundColor: Colors.red,
         textColor: Colors.white,
         gravity: ToastGravity.BOTTOM,
@@ -74,11 +95,11 @@ class RecipeRepository extends GetxController {
   cleardata() {
     name.clear();
     des.clear();
-    des.clear();
     image = null;
     cal.clear();
     pre.clear();
     protein.clear();
+    selectedCategory = 'Main Dishes';
     update();
   }
 }
