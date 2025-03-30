@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:food_dairy_app/model.dart/RecppeModel.dart';
+import 'package:food_dairy_app/model.dart/RecipeModel.dart';
 import 'package:food_dairy_app/controller/recipe_repository.dart';
 import 'package:food_dairy_app/widget/constants/staticdata.dart';
 import 'package:food_dairy_app/widget/loaded_recipes_widget.dart';
@@ -51,9 +51,9 @@ class _Page1State extends State<Page1> {
       String selectedCategory = categories[selectedCategoryIndex].toLowerCase();
 
       filteredRecipes = makeRecipes.where((recipe) {
-        bool matchesSearch = recipe.title.toLowerCase().contains(searchQuery);
+        bool matchesSearch = recipe.name.toLowerCase().contains(searchQuery);
         bool matchesCategory = selectedCategory == 'all' || 
-                             recipe.category.toLowerCase() == selectedCategory;
+                             recipe.name.toLowerCase().contains(selectedCategory);
         return matchesSearch && matchesCategory;
       }).toList();
     });

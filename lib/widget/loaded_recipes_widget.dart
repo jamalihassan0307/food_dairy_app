@@ -1,13 +1,13 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
-import 'package:food_dairy_app/model.dart/RecppeModel.dart';
+import 'package:food_dairy_app/model.dart/RecipeModel.dart';
 import 'package:food_dairy_app/screen/recipe_details_screen.dart';
 import 'package:food_dairy_app/widget/theme/app_colors.dart';
 import 'package:animate_do/animate_do.dart';
 
 class LoadedRecipesWidget extends StatelessWidget {
-  final List<Recipe> recipes;
+  final List<RecipeModel> recipes;
   const LoadedRecipesWidget({
     super.key,
     required this.recipes,
@@ -43,7 +43,7 @@ class LoadedRecipesWidget extends StatelessWidget {
 }
 
 class RecipeCardWidget extends StatelessWidget {
-  final Recipe recipe;
+  final RecipeModel recipe;
   RecipeCardWidget({
     super.key,
     required this.recipe,

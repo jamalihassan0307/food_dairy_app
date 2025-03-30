@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:food_dairy_app/controller/loginController.dart';
-import 'package:food_dairy_app/model.dart/RecppeModel.dart';
+import 'package:food_dairy_app/model.dart/RecipeModel.dart';
 import 'package:food_dairy_app/model.dart/UserModel.dart';
 import 'dart:io';
 import 'dart:typed_data';
@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class StaticData {
   static String? id;
-  static List<Recipe>? yourrecipe;
+  static List<RecipeModel>? yourrecipe;
   static UserModel? model;
   static Future<String?> fileToAsset(String filePath) async {
     final directory = await getApplicationDocumentsDirectory();

@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class Recipe {
+class RecipeModel {
   final String id;
   final String name;
   final String description;
@@ -11,7 +11,7 @@ class Recipe {
   final String calories;
   final String protein;
   final String prepTime;
-  Recipe({
+  RecipeModel({
     required this.id,
     required this.name,
     required this.description,
@@ -21,7 +21,7 @@ class Recipe {
     required this.prepTime,
   });
 
-  Recipe copyWith({
+  RecipeModel copyWith({
     String? id,
     String? name,
     String? description,
@@ -30,7 +30,7 @@ class Recipe {
     String? protein,
     String? prepTime,
   }) {
-    return Recipe(
+    return RecipeModel(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
@@ -53,8 +53,8 @@ class Recipe {
     };
   }
 
-  factory Recipe.fromMap(Map<String, dynamic> map) {
-    return Recipe(
+  factory RecipeModel.fromMap(Map<String, dynamic> map) {
+    return RecipeModel(
       id: map['id'] as String,
       name: map['name'] as String,
       description: map['description'] as String,
@@ -67,8 +67,8 @@ class Recipe {
 
   String toJson() => json.encode(toMap());
 
-  factory Recipe.fromJson(String source) =>
-      Recipe.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory RecipeModel.fromJson(String source) =>
+      RecipeModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -76,7 +76,7 @@ class Recipe {
   }
 
   @override
-  bool operator ==(covariant Recipe other) {
+  bool operator ==(covariant RecipeModel other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&
@@ -100,8 +100,8 @@ class Recipe {
   }
 }
 
-List<Recipe> makeRecipes = [
-  Recipe(
+List<RecipeModel> makeRecipes = [
+  RecipeModel(
       id: "1",
       name: "Spaghetti Bolognese",
       description: "A classic Italian meat sauce served over pasta",
@@ -109,7 +109,7 @@ List<Recipe> makeRecipes = [
       calories: "650",
       protein: "35",
       prepTime: "60"),
-  Recipe(
+  RecipeModel(
     id: "2",
     name: "Chicken Parmesan",
     description:
@@ -119,7 +119,7 @@ List<Recipe> makeRecipes = [
     protein: "45",
     prepTime: "30",
   ),
-  Recipe(
+  RecipeModel(
     id: "3",
     name: "Caesar Salad",
     description:
@@ -129,7 +129,7 @@ List<Recipe> makeRecipes = [
     protein: "10",
     prepTime: "10",
   ),
-  Recipe(
+  RecipeModel(
     id: "4",
     name: "Tacos",
     description:
@@ -139,7 +139,7 @@ List<Recipe> makeRecipes = [
     protein: "20",
     prepTime: "20",
   ),
-  Recipe(
+  RecipeModel(
     id: "5",
     name: "Pasta Alfredo",
     description:
@@ -149,7 +149,7 @@ List<Recipe> makeRecipes = [
     protein: "15",
     prepTime: "15",
   ),
-  Recipe(
+  RecipeModel(
     id: "6",
     name: "Cheese Pizza",
     description: "Crispy crust with tomato sauce and mozzarella cheese",
@@ -158,7 +158,7 @@ List<Recipe> makeRecipes = [
     protein: "20",
     prepTime: "40",
   ),
-  Recipe(
+  RecipeModel(
     id: "7",
     name: "Hamburger",
     description:
@@ -168,7 +168,7 @@ List<Recipe> makeRecipes = [
     protein: "25",
     prepTime: "15",
   ),
-  Recipe(
+  RecipeModel(
     id: "8",
     name: "Chocolate Chip Cookies",
     description: "Chewy cookies filled with chocolate chips",
@@ -177,7 +177,7 @@ List<Recipe> makeRecipes = [
     protein: "3",
     prepTime: "30",
   ),
-  Recipe(
+  RecipeModel(
     id: "9",
     name: "Chicken Fried Rice",
     description: "Rice stir-fried with chicken, vegetables and egg",
