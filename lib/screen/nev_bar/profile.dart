@@ -30,297 +30,300 @@ class _ProfileState extends State<Profile> {
       body: GetBuilder<ProfileController>(
         init: ProfileController(),
         builder: (obj) {
-          return SingleChildScrollView(
-            child: Container(
-              height: height,
-              width: width,
-              color: Theme.of(context).scaffoldBackgroundColor,
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    // Top Bar with Back Button
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () => Get.back(),
-                            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          return SafeArea(
+            child: Column(
+              children: [
+                // Top Bar with Back Button
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => Get.back(),
+                        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                      ),
+                      const Spacer(),
+                      Text(
+                        "Profile",
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+
+                // Scrollable Content
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        // Profile Image and Name Section
+                        FadeInDown(
+                          duration: const Duration(milliseconds: 800),
+                          child: Column(
+                            children: [
+                              Stack(
+                                children: [
+                                  Container(
+                                    width: 120,
+                                    height: 120,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: AppColors.primaryColor,
+                                        width: 3,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppColors.primaryColor.withOpacity(0.2),
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 5),
+                                        ),
+                                      ],
+                                    ),
+                                    child: FutureBuilder(
+                                      future: StaticData.assetToFile(StaticData.model!.image),
+                                      builder: (BuildContext context, snapshot) {
+                                        if (snapshot.connectionState == ConnectionState.waiting) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(
+                                              color: AppColors.primaryColor,
+                                            ),
+                                          );
+                                        }
+
+                                        if (snapshot.hasError) {
+                                          return const Icon(
+                                            Icons.error_outline,
+                                            color: AppColors.primaryColor,
+                                            size: 40,
+                                          );
+                                        }
+
+                                        return ClipOval(
+                                          child: Image.file(
+                                            snapshot.requireData,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primaryColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(
+                                        Icons.camera_alt,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                obj.username.text.isEmpty ? "Your Name" : obj.username.text,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          const Spacer(),
-                          Text(
-                            "Profile",
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                        ),
+                        const SizedBox(height: 30),
+
+                        // Profile Stats
+                        FadeInDown(
+                          delay: const Duration(milliseconds: 200),
+                          duration: const Duration(milliseconds: 800),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                _buildStatItem(
+                                  icon: Icons.restaurant_menu,
+                                  label: "Meals",
+                                  value: "12",
+                                ),
+                                _buildStatItem(
+                                  icon: Icons.local_fire_department,
+                                  label: "Calories",
+                                  value: "1,200",
+                                ),
+                                _buildStatItem(
+                                  icon: Icons.fitness_center,
+                                  label: "Protein",
+                                  value: "60g",
+                                ),
+                              ],
                             ),
                           ),
-                          const Spacer(),
-                        ],
-                      ),
-                    ),
+                        ),
+                        const SizedBox(height: 30),
 
-                    // Profile Image and Name Section
-                    FadeInDown(
-                      duration: const Duration(milliseconds: 800),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                width: 120,
-                                height: 120,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: AppColors.primaryColor,
-                                    width: 3,
+                        // Profile Information Section
+                        FadeInUp(
+                          delay: const Duration(milliseconds: 400),
+                          duration: const Duration(milliseconds: 800),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              color: AppColors.cardColor,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: Colors.white.withOpacity(0.1)),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Profile Information",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
+                                ),
+                                const SizedBox(height: 20),
+                                _buildTextField(
+                                  controller: obj.username,
+                                  icon: Icons.person_outline,
+                                  hint: "Username",
+                                ),
+                                const SizedBox(height: 16),
+                                _buildTextField(
+                                  controller: obj.email,
+                                  icon: Icons.email_outlined,
+                                  hint: "Email",
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                                const SizedBox(height: 16),
+                                _buildTextField(
+                                  controller: obj.phone,
+                                  icon: Icons.phone_outlined,
+                                  hint: "Phone",
+                                  keyboardType: TextInputType.phone,
+                                ),
+                                const SizedBox(height: 16),
+                                _buildTextField(
+                                  controller: obj.dob,
+                                  icon: Icons.calendar_today_outlined,
+                                  hint: "Date of birth",
+                                  onTap: () async {
+                                    final DateTime? picked = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime.now(),
+                                    );
+                                    if (picked != null) {
+                                      obj.dob.text = "${picked.day}/${picked.month}/${picked.year}";
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Security Section
+                        FadeInUp(
+                          delay: const Duration(milliseconds: 600),
+                          duration: const Duration(milliseconds: 800),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              color: AppColors.cardColor,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: Colors.white.withOpacity(0.1)),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Security",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                _buildTextField(
+                                  controller: obj.password,
+                                  icon: Icons.lock_outline,
+                                  hint: "Change Password",
+                                  isPassword: true,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+
+                        // Update Button
+                        FadeInUp(
+                          delay: const Duration(milliseconds: 800),
+                          duration: const Duration(milliseconds: 800),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: InkWell(
+                              onTap: () => obj.updatedata(),
+                              child: Container(
+                                width: double.infinity,
+                                height: 55,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      AppColors.primaryColor,
+                                      AppColors.secondaryColor,
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(30),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppColors.primaryColor.withOpacity(0.2),
+                                      color: AppColors.primaryColor.withOpacity(0.3),
                                       blurRadius: 10,
                                       offset: const Offset(0, 5),
                                     ),
                                   ],
                                 ),
-                                child: FutureBuilder(
-                                  future: StaticData.assetToFile(StaticData.model!.image),
-                                  builder: (BuildContext context, snapshot) {
-                                    if (snapshot.connectionState == ConnectionState.waiting) {
-                                      return const Center(
-                                        child: CircularProgressIndicator(
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      );
-                                    }
-
-                                    if (snapshot.hasError) {
-                                      return const Icon(
-                                        Icons.error_outline,
-                                        color: AppColors.primaryColor,
-                                        size: 40,
-                                      );
-                                    }
-
-                                    return ClipOval(
-                                      child: Image.file(
-                                        snapshot.requireData,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primaryColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.white,
-                                    size: 20,
+                                child: const Center(
+                                  child: Text(
+                                    "Update Profile",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            obj.username.text.isEmpty ? "Your Name" : obj.username.text,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-
-                    // Profile Stats
-                    FadeInDown(
-                      delay: const Duration(milliseconds: 200),
-                      duration: const Duration(milliseconds: 800),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _buildStatItem(
-                              icon: Icons.restaurant_menu,
-                              label: "Meals",
-                              value: "12",
-                            ),
-                            _buildStatItem(
-                              icon: Icons.local_fire_department,
-                              label: "Calories",
-                              value: "1,200",
-                            ),
-                            _buildStatItem(
-                              icon: Icons.fitness_center,
-                              label: "Protein",
-                              value: "60g",
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-
-                    // Profile Information Section
-                    FadeInUp(
-                      delay: const Duration(milliseconds: 400),
-                      duration: const Duration(milliseconds: 800),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: BoxDecoration(
-                          color: AppColors.cardColor,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.white.withOpacity(0.1)),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Profile Information",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            _buildTextField(
-                              controller: obj.username,
-                              icon: Icons.person_outline,
-                              hint: "Username",
-                            ),
-                            const SizedBox(height: 16),
-                            _buildTextField(
-                              controller: obj.email,
-                              icon: Icons.email_outlined,
-                              hint: "Email",
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            const SizedBox(height: 16),
-                            _buildTextField(
-                              controller: obj.phone,
-                              icon: Icons.phone_outlined,
-                              hint: "Phone",
-                              keyboardType: TextInputType.phone,
-                            ),
-                            const SizedBox(height: 16),
-                            _buildTextField(
-                              controller: obj.dob,
-                              icon: Icons.calendar_today_outlined,
-                              hint: "Date of birth",
-                              onTap: () async {
-                                final DateTime? picked = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(1900),
-                                  lastDate: DateTime.now(),
-                                );
-                                if (picked != null) {
-                                  obj.dob.text = "${picked.day}/${picked.month}/${picked.year}";
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Security Section
-                    FadeInUp(
-                      delay: const Duration(milliseconds: 600),
-                      duration: const Duration(milliseconds: 800),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: BoxDecoration(
-                          color: AppColors.cardColor,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.white.withOpacity(0.1)),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Security",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            _buildTextField(
-                              controller: obj.password,
-                              icon: Icons.lock_outline,
-                              hint: "Change Password",
-                              isPassword: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-
-                    // Update Button
-                    FadeInUp(
-                      delay: const Duration(milliseconds: 800),
-                      duration: const Duration(milliseconds: 800),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: InkWell(
-                          onTap: () => obj.updatedata(),
-                          child: Container(
-                            width: double.infinity,
-                            height: 55,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  AppColors.primaryColor,
-                                  AppColors.secondaryColor,
-                                ],
-                              ),
-                              borderRadius: BorderRadius.circular(30),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.primaryColor.withOpacity(0.3),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "Update Profile",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
                             ),
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 20),
+                      ],
                     ),
-                    const SizedBox(height: 20),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           );
         },
