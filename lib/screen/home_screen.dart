@@ -5,8 +5,6 @@ import 'package:food_dairy_app/controller/recipe_repository.dart';
 import 'package:food_dairy_app/controller/sqllite.dart';
 import 'package:food_dairy_app/screen/nev_bar/page1.dart';
 import 'package:food_dairy_app/screen/nev_bar/page2.dart';
-import 'package:food_dairy_app/screen/addfood.dart';
-import 'package:food_dairy_app/screen/nev_bar/profile.dart';
 import 'package:food_dairy_app/screen/settingScreen.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
