@@ -100,10 +100,40 @@ class _ProfileState extends State<Profile> {
                                     ),
                                     child: ClipOval(
                                       child: obj.image != null
-                                          ? Image.file(obj.image!, fit: BoxFit.cover)
+                                          ? Image.file(
+                                              obj.image!,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error, stackTrace) {
+                                                return const Icon(
+                                                  Icons.person,
+                                                  color: AppColors.primaryColor,
+                                                  size: 60,
+                                                );
+                                              },
+                                            )
                                           : StaticData.model!.image.contains("assets/")
-                                              ? Image.asset(StaticData.model!.image, fit: BoxFit.cover)
-                                              : Image.file(File(StaticData.model!.image), fit: BoxFit.cover),
+                                              ? Image.asset(
+                                                  StaticData.model!.image,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error, stackTrace) {
+                                                    return const Icon(
+                                                      Icons.person,
+                                                      color: AppColors.primaryColor,
+                                                      size: 60,
+                                                    );
+                                                  },
+                                                )
+                                              : Image.file(
+                                                  File(StaticData.model!.image),
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error, stackTrace) {
+                                                    return const Icon(
+                                                      Icons.person,
+                                                      color: AppColors.primaryColor,
+                                                      size: 60,
+                                                    );
+                                                  },
+                                                ),
                                     ),
                                   ),
                                   Positioned(
