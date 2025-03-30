@@ -171,6 +171,7 @@ class _Page2State extends State<Page2> {
                               ),
                             )
                           : LoadedRecipesWidget(
+                              isFromYourRecipes: true,
                               recipes: StaticData.yourrecipe!,
                             ),
                     ),

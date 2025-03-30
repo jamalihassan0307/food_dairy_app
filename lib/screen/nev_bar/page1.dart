@@ -291,6 +291,7 @@ class _Page1State extends State<Page1> {
                       delay: const Duration(milliseconds: 800),
                       duration: const Duration(milliseconds: 800),
                       child: LoadedRecipesWidget(
+                        isFromYourRecipes: false,
                         recipes: filteredRecipes,
                       ),
                     ),
