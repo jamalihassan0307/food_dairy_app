@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute(builder: (context) => const AddFood()),
                   );
                 },
-                backgroundColor: AppColors.secondaryColor,
+                backgroundColor: AppColors.primaryColor,
                 child: const Icon(Icons.add, size: 28),
               ),
             ),
@@ -85,14 +85,16 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FadeInUp(
               duration: const Duration(milliseconds: 800),
               child: Container(
-                height: 80,
+                height: 70,
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
                   color: Colors.white,
+                  borderRadius: BorderRadius.circular(25),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, -5),
+                      blurRadius: 20,
+                      offset: const Offset(0, 5),
                     ),
                   ],
                 ),
@@ -128,14 +130,26 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primaryColor.withOpacity(0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? AppColors.primaryColor.withOpacity(0.5) : Colors.transparent,
+            width: 1,
+          ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: isSelected ? AppColors.primaryColor : Colors.grey,
-              size: 28,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: isSelected ? AppColors.primaryColor.withOpacity(0.1) : Colors.transparent,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                color: isSelected ? AppColors.primaryColor : Colors.grey,
+                size: 24,
+              ),
             ),
             const SizedBox(height: 4),
             Text(
