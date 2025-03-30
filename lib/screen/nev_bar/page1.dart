@@ -23,11 +23,14 @@ class _Page1State extends State<Page1> {
 
   final List<String> categories = [
     'All',
-    'Breakfast',
-    'Lunch',
-    'Dinner',
-    'Snacks',
+    'Main Dishes',
+    'Pasta',
+    'Salads',
+    'Mexican',
+    'Italian',
+    'Fast Food',
     'Desserts',
+    'Asian',
   ];
 
   int selectedCategoryIndex = 0;
@@ -58,8 +61,23 @@ class _Page1State extends State<Page1> {
       
       filteredRecipes = allRecipes.where((recipe) {
         bool matchesSearch = recipe.name.toLowerCase().contains(searchQuery);
-        bool matchesCategory = selectedCategory == 'all' || 
-                             recipe.name.toLowerCase().contains(selectedCategory);
+        bool matchesCategory = selectedCategory == 'All' || 
+                             (selectedCategory == 'Main Dishes' && 
+                              ['Chicken Parmesan', 'Hamburger'].contains(recipe.name)) ||
+                             (selectedCategory == 'Pasta' && 
+                              ['Spaghetti Bolognese', 'Pasta Alfredo'].contains(recipe.name)) ||
+                             (selectedCategory == 'Salads' && 
+                              ['Caesar Salad'].contains(recipe.name)) ||
+                             (selectedCategory == 'Mexican' && 
+                              ['Tacos'].contains(recipe.name)) ||
+                             (selectedCategory == 'Italian' && 
+                              ['Spaghetti Bolognese', 'Chicken Parmesan', 'Pasta Alfredo', 'Cheese Pizza'].contains(recipe.name)) ||
+                             (selectedCategory == 'Fast Food' && 
+                              ['Hamburger', 'Cheese Pizza'].contains(recipe.name)) ||
+                             (selectedCategory == 'Desserts' && 
+                              ['Chocolate Chip Cookies'].contains(recipe.name)) ||
+                             (selectedCategory == 'Asian' && 
+                              ['Chicken Fried Rice'].contains(recipe.name));
         return matchesSearch && matchesCategory;
       }).toList();
     });
