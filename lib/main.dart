@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:food_dairy_app/controller/recipe_controller.dart';
 import 'package:food_dairy_app/screen/loginScreen.dart';
 import 'package:food_dairy_app/widget/theme/app_theme.dart';
 
-void main() async {
+void main() {
+  // Initialize GetX controller
+  Get.put(RecipeController());
+  
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
