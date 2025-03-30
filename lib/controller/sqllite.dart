@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:food_dairy_app/model.dart/RecppeModel.dart';
+import 'package:food_dairy_app/model.dart/RecipeModel.dart';
 import 'package:food_dairy_app/model.dart/UserModel.dart';
 import 'package:food_dairy_app/widget/constants/staticdata.dart';
 import 'package:path_provider/path_provider.dart';
@@ -74,7 +74,7 @@ class DBHelper {
     await dbClient!.insert('users', user.toMap());
   }
 
-  static Future<void> insertRecipe(Recipe r) async {
+  static Future<void> insertRecipe(RecipeModel r) async {
     final dbClient = await db;
     await dbClient!.insert('recipes', r.toMap());
   }
@@ -89,12 +89,12 @@ class DBHelper {
     );
   }
 
-  static Future<List<Recipe?>?> getAllRecipes() async {
+  static Future<List<RecipeModel?>?> getAllRecipes() async {
     try {
       final dbClient = await db;
       final List<Map<String, dynamic>> maps = await dbClient!.query('recipes');
-      List<Recipe> recipe = List.generate(maps.length, (i) {
-        return Recipe(
+      List<RecipeModel> recipe = List.generate(maps.length, (i) {
+        return RecipeModel(
           id: maps[i]['id'],
           name: maps[i]['name'],
           description: maps[i]['description'],
