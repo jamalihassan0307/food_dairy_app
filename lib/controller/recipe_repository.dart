@@ -33,6 +33,21 @@ class RecipeRepository extends GetxController {
   int index = 0;
   File? image;
 
+  // Add methods to calculate statistics
+  int getTotalCalories() {
+    if (StaticData.yourrecipe == null) return 0;
+    return StaticData.yourrecipe!.fold(0, (sum, recipe) => sum + int.parse(recipe.calories));
+  }
+
+  int getTotalProtein() {
+    if (StaticData.yourrecipe == null) return 0;
+    return StaticData.yourrecipe!.fold(0, (sum, recipe) => sum + int.parse(recipe.protein));
+  }
+
+  int getMealsCount() {
+    return StaticData.yourrecipe?.length ?? 0;
+  }
+
   Future<void> pickImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
@@ -67,18 +82,20 @@ class RecipeRepository extends GetxController {
         prepTime: pre.text
       );
       
-      DBHelper.insertRecipe(model).then((value) {
-        Fluttertoast.showToast(
-          msg: "Recipe Added Successfully!",
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          gravity: ToastGravity.BOTTOM,
-          fontSize: 17,
-          timeInSecForIosWeb: 1,
-          toastLength: Toast.LENGTH_LONG,
-        );
-        cleardata();
-      });
+      await DBHelper.insertRecipe(model);
+      await DBHelper.getAllRecipes(); // Refresh the recipes list
+      update(); // Update the UI
+      
+      Fluttertoast.showToast(
+        msg: "Recipe Added Successfully!",
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        gravity: ToastGravity.BOTTOM,
+        fontSize: 17,
+        timeInSecForIosWeb: 1,
+        toastLength: Toast.LENGTH_LONG,
+      );
+      cleardata();
     } else {
       Fluttertoast.showToast(
         msg: "Please fill all fields!",
