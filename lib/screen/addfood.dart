@@ -24,7 +24,7 @@ class _AddFoodState extends State<AddFood> {
   Widget build(BuildContext context) {
     return GetBuilder<RecipeRepository>(builder: (obj) {
       return Scaffold(
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SafeArea(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -40,15 +40,15 @@ class _AddFoodState extends State<AddFood> {
                       children: [
                         IconButton(
                           onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                          icon: Icon(Icons.arrow_back_ios_new, color: AppColors.primaryColor),
                         ),
                         const SizedBox(width: 10),
-                        const Text(
+                        Text(
                           "Add New Recipe",
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: AppColors.primaryColor,
                           ),
                         ),
                       ],
@@ -68,11 +68,11 @@ class _AddFoodState extends State<AddFood> {
                           height: 150,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.1),
-                            border: Border.all(color: Colors.white, width: 2),
+                            color: AppColors.primaryColor.withOpacity(0.1),
+                            border: Border.all(color: AppColors.primaryColor, width: 2),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
+                                color: AppColors.primaryColor.withOpacity(0.2),
                                 blurRadius: 15,
                                 offset: const Offset(0, 5),
                               ),
@@ -82,12 +82,12 @@ class _AddFoodState extends State<AddFood> {
                               ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.add_a_photo, color: Colors.white, size: 40),
+                                    Icon(Icons.add_a_photo, color: AppColors.primaryColor, size: 40),
                                     const SizedBox(height: 8),
                                     Text(
                                       "Add Photo",
                                       style: TextStyle(
-                                        color: Colors.white.withOpacity(0.8),
+                                        color: AppColors.primaryColor.withOpacity(0.8),
                                         fontSize: 14,
                                       ),
                                     ),
@@ -134,7 +134,7 @@ class _AddFoodState extends State<AddFood> {
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
+                                  color: AppColors.primaryColor.withOpacity(0.1),
                                   blurRadius: 10,
                                   offset: const Offset(0, 5),
                                 ),
@@ -146,10 +146,10 @@ class _AddFoodState extends State<AddFood> {
                                 decoration: InputDecoration(
                                   hintText: "Select Category",
                                   hintStyle: TextStyle(
-                                    color: Colors.grey[400],
+                                    color: AppColors.textSecondaryColor,
                                     fontSize: 16,
                                   ),
-                                  prefixIcon: const Icon(Icons.category, color: AppColors.primaryColor),
+                                  prefixIcon: Icon(Icons.category, color: AppColors.primaryColor),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
                                     borderSide: BorderSide.none,
@@ -164,7 +164,12 @@ class _AddFoodState extends State<AddFood> {
                                 items: obj.categories.map((String category) {
                                   return DropdownMenuItem<String>(
                                     value: category,
-                                    child: Text(category),
+                                    child: Text(
+                                      category,
+                                      style: TextStyle(
+                                        color: AppColors.textColor,
+                                      ),
+                                    ),
                                   );
                                 }).toList(),
                                 onChanged: (String? newValue) {
@@ -221,8 +226,8 @@ class _AddFoodState extends State<AddFood> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.white,
-                            Colors.white.withOpacity(0.9),
+                            AppColors.primaryColor,
+                            AppColors.primaryColor.withOpacity(0.8),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -230,7 +235,7 @@ class _AddFoodState extends State<AddFood> {
                         borderRadius: BorderRadius.circular(15),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
+                            color: AppColors.primaryColor.withOpacity(0.3),
                             blurRadius: 15,
                             offset: const Offset(0, 5),
                           ),
@@ -248,7 +253,7 @@ class _AddFoodState extends State<AddFood> {
                         child: const Text(
                           "Add Recipe",
                           style: TextStyle(
-                            color: AppColors.primaryColor,
+                            color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -279,7 +284,7 @@ class _AddFoodState extends State<AddFood> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: AppColors.primaryColor.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -289,11 +294,14 @@ class _AddFoodState extends State<AddFood> {
         controller: controller,
         keyboardType: keyboardType,
         maxLines: maxLines ?? 1,
-        style: const TextStyle(fontSize: 16),
+        style: TextStyle(
+          fontSize: 16,
+          color: AppColors.textColor,
+        ),
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(
-            color: Colors.grey[400],
+            color: AppColors.textSecondaryColor,
             fontSize: 16,
           ),
           prefixIcon: Icon(icon, color: AppColors.primaryColor),
