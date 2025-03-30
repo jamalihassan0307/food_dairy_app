@@ -6,10 +6,12 @@ import 'package:food_dairy_app/widget/constants/staticdata.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:get/get.dart';
 import 'dart:io';
+import 'package:food_dairy_app/controller/recipe_controller.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
   final RecipeModel recipe;
   final bool isFromYourRecipes;
+  final RecipeController recipeController = Get.find<RecipeController>();
   
   RecipeDetailsScreen({
     super.key,
@@ -299,16 +301,13 @@ class RecipeDetailsScreen extends StatelessWidget {
   Widget _buildAddButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (StaticData.yourrecipe == null) {
-          StaticData.yourrecipe = [];
-        }
-        StaticData.yourrecipe!.add(recipe);
+        recipeController.addRecipe(recipe);
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Recipe added to your meals'),
-            backgroundColor: Colors.green,
-          ),
+        Get.snackbar(
+          'Success',
+          'Recipe added to your meals',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
         );
       },
       child: Container(
@@ -349,16 +348,13 @@ class RecipeDetailsScreen extends StatelessWidget {
   Widget _buildDeleteButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Remove recipe from user's recipes
-        StaticData.yourrecipe?.removeWhere((r) => r.id == recipe.id);
-        // Pop back to previous screen
+        recipeController.removeRecipe(recipe);
         Navigator.of(context).pop();
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Recipe removed from your meals'),
-            backgroundColor: Colors.red,
-          ),
+        Get.snackbar(
+          'Success',
+          'Recipe removed from your meals',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
         );
       },
       child: Container(
