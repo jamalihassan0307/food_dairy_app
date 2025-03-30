@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_dairy_app/screen/loginScreen.dart';
+import 'package:food_dairy_app/screen/walkthrough_screen.dart';
 import 'package:food_dairy_app/widget/theme/app_colors.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -14,12 +14,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Navigate to login screen after 3 seconds
+    // Navigate to walkthrough screen after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
+          MaterialPageRoute(builder: (context) => const WalkthroughScreen()),
         );
       }
     });

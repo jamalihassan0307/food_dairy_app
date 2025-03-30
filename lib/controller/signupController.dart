@@ -11,12 +11,12 @@ import 'package:food_dairy_app/widget/constants/staticdata.dart';
 class SignupController extends GetxController {
   static SignupController get to => Get.find();
 
-  TextEditingController username = TextEditingController(text: "Ali Hassan");
+  TextEditingController username = TextEditingController();
   TextEditingController email =
-      TextEditingController(text: "jamaliahssan0307@gmail.com");
-  TextEditingController password = TextEditingController(text: "123456@");
-  TextEditingController phone = TextEditingController(text: "03073921189");
-  TextEditingController dob = TextEditingController(text: "12/12/2012");
+      TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController dob = TextEditingController();
 
   late final DBHelper database;
 

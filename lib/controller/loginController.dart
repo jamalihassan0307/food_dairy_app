@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 class LoginController extends GetxController {
   static LoginController get to => Get.find();
   TextEditingController email =
-      TextEditingController(text: "jamaliahssan0307@gmail.com");
-  TextEditingController password = TextEditingController(text: "123456@");
+      TextEditingController();
+  TextEditingController password = TextEditingController();
   Future<UserModel?> getUser(String email, String password, context) async {
     print("dataaaa");
     UserModel? model =
