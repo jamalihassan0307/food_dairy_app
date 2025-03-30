@@ -40,12 +40,12 @@ class _ProfileState extends State<Profile> {
 
     return Scaffold(
       body: GetBuilder<ProfileController>(
-        init: ProfileController(),
-        builder: (obj) {
+          init: ProfileController(),
+          builder: (obj) {
           print("84728rhweuhfhf ${StaticData.model!.image}");
           return SafeArea(
-            child: Column(
-              children: [
+              child: Column(
+                children: [
                 // Top Bar with Back Button
                 Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -56,7 +56,7 @@ class _ProfileState extends State<Profile> {
                         icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                       ),
                       const Spacer(),
-                      Text(
+                  Text(
                         "Profile",
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: Colors.white,
@@ -100,35 +100,10 @@ class _ProfileState extends State<Profile> {
                                     ),
                                     child: ClipOval(
                                       child: obj.image != null
-                                          ? Image.file(
-                                              obj.image!,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : !StaticData.model!.image.contains("assets") ? FutureBuilder(
-                                              future: StaticData.assetToFile(StaticData.model!.image),
-                                              builder: (BuildContext context, snapshot) {
-                                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                                  return const Center(
-                                                    child: CircularProgressIndicator(
-                                                      color: AppColors.primaryColor,
-                                                    ),
-                                                  );
-                                                }
-
-                                                if (snapshot.hasError) {
-                                                  return const Icon(
-                                                    Icons.error_outline,
-                                                    color: AppColors.primaryColor,
-                                                    size: 40,
-                                                  );
-                                                }
-
-                                                return Image.asset(
-                                                  StaticData.model!.image,
-                                                  fit: BoxFit.cover,
-                                                );
-                                              },
-                                            ) : const SizedBox(),
+                                          ? Image.file(obj.image!, fit: BoxFit.cover)
+                                          : StaticData.model!.image.contains("assets/")
+                                              ? Image.asset(StaticData.model!.image, fit: BoxFit.cover)
+                                              : Image.file(File(StaticData.model!.image), fit: BoxFit.cover),
                                     ),
                                   ),
                                   Positioned(
@@ -147,9 +122,9 @@ class _ProfileState extends State<Profile> {
                                           color: Colors.white,
                                           size: 20,
                                         ),
-                                      ),
-                                    ),
-                                  ),
+                      ),
+                    ),
+                  ),
                                 ],
                               ),
                               const SizedBox(height: 16),
@@ -241,7 +216,7 @@ class _ProfileState extends State<Profile> {
                                 ),
                                 const SizedBox(height: 16),
                                 _buildTextField(
-                                  controller: obj.dob,
+                            controller: obj.dob,
                                   icon: Icons.calendar_today_outlined,
                                   hint: "Date of birth",
                                   onTap: () async {
@@ -306,10 +281,10 @@ class _ProfileState extends State<Profile> {
                             padding: const EdgeInsets.symmetric(horizontal: 20.0),
                             child: InkWell(
                               onTap: () => obj.updatedata(),
-                              child: Container(
+                      child: Container(
                                 width: double.infinity,
-                                height: 55,
-                                decoration: BoxDecoration(
+                        height: 55,
+                        decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
                                       AppColors.primaryColor,
@@ -324,14 +299,14 @@ class _ProfileState extends State<Profile> {
                                       offset: const Offset(0, 5),
                                     ),
                                   ],
-                                ),
-                                child: const Center(
-                                  child: Text(
+                        ),
+                        child: const Center(
+                          child: Text(
                                     "Update Profile",
-                                    style: TextStyle(
+                            style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -343,10 +318,10 @@ class _ProfileState extends State<Profile> {
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-          );
+                  ),
+                ],
+              ),
+            );
         },
       ),
     );

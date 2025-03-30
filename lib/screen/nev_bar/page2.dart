@@ -25,18 +25,18 @@ class _Page2State extends State<Page2> {
     width = MediaQuery.of(context).size.width;
 
     return GetBuilder<RecipeRepository>(
-      initState: (state) {},
-      builder: (obj) {
+        initState: (state) {},
+        builder: (obj) {
         return Container(
-          height: height,
-          width: width,
+            height: height,
+            width: width,
           color: Theme.of(context).scaffoldBackgroundColor,
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   const SizedBox(height: 20),
                   // Header Section
                   FadeInDown(
@@ -121,10 +121,10 @@ class _Page2State extends State<Page2> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                    Text(
                           "Today's Meals",
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
@@ -145,7 +145,7 @@ class _Page2State extends State<Page2> {
                   const SizedBox(height: 20),
 
                   // Recipes List
-                  Expanded(
+                    Expanded(
                     child: FadeInUp(
                       delay: const Duration(milliseconds: 600),
                       duration: const Duration(milliseconds: 800),
@@ -175,11 +175,11 @@ class _Page2State extends State<Page2> {
                             ),
                     ),
                   ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
+          );
       },
     );
   }
