@@ -5,10 +5,10 @@ import 'package:food_dairy_app/screen/loginScreen.dart';
 import 'package:food_dairy_app/widget/theme/app_theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   // Initialize GetX controller
   Get.put(RecipeController());
   
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Food Diary App',
       debugShowCheckedModeBanner: false,
       theme: mainTheme,

@@ -303,12 +303,16 @@ class RecipeDetailsScreen extends StatelessWidget {
       onTap: () {
         recipeController.addRecipe(recipe);
         Navigator.of(context).pop();
-        Get.snackbar(
-          'Success',
-          'Recipe added to your meals',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
+        // Show snackbar after navigation
+        Future.delayed(const Duration(milliseconds: 100), () {
+          Get.snackbar(
+            'Success',
+            'Recipe added to your meals',
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        });
       },
       child: Container(
         width: double.infinity,
@@ -350,12 +354,16 @@ class RecipeDetailsScreen extends StatelessWidget {
       onTap: () {
         recipeController.removeRecipe(recipe);
         Navigator.of(context).pop();
-        Get.snackbar(
-          'Success',
-          'Recipe removed from your meals',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
+        // Show snackbar after navigation
+        Future.delayed(const Duration(milliseconds: 100), () {
+          Get.snackbar(
+            'Success',
+            'Recipe removed from your meals',
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        });
       },
       child: Container(
         width: double.infinity,
