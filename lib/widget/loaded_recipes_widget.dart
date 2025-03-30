@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_dairy_app/model.dart/RecppeModel.dart';
 import 'package:food_dairy_app/screen/recipe_details_screen.dart';
+import 'package:food_dairy_app/widget/theme/app_colors.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:heroicons/heroicons.dart';
 
 class LoadedRecipesWidget extends StatelessWidget {
   final List<Recipe> recipes;
@@ -16,19 +19,23 @@ class LoadedRecipesWidget extends StatelessWidget {
     return ListView.builder(
       itemCount: recipes.length,
       itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => RecipeDetailsScreen(
-                  recipe: recipes[index],
+        return FadeInUp(
+          delay: Duration(milliseconds: index * 200),
+          duration: const Duration(milliseconds: 800),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RecipeDetailsScreen(
+                    recipe: recipes[index],
+                  ),
                 ),
-              ),
-            );
-          },
-          child: RecipeCardWidget(
-            recipe: recipes[index],
+              );
+            },
+            child: RecipeCardWidget(
+              recipe: recipes[index],
+            ),
           ),
         );
       },
@@ -49,42 +56,122 @@ class RecipeCardWidget extends StatelessWidget {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
-    return SizedBox(
+    return Container(
       height: height * 0.24,
       width: width,
-      child: Card(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AnimatedImageWidget(
-              imageUrl: recipe.imageUrl,
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text("${recipe.calories}cal \t\t\t\t${recipe.protein}protein",
-                    style: Theme.of(context).textTheme.labelMedium),
-                SizedBox(
-                    width: width * 0.4,
-                    child: Text(recipe.name,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        softWrap: true,
-                        style: Theme.of(context).textTheme.titleLarge)),
-                SizedBox(
-                  width: width * 0.4,
-                  child: Text(recipe.description,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 4,
-                      softWrap: true,
-                      style: Theme.of(context).textTheme.labelLarge),
-                ),
-              ],
-            )
-          ],
-        ),
+            child: Hero(
+              tag: 'recipe_${recipe.name}',
+              child: Image.asset(
+                recipe.imageUrl,
+                height: height * 0.24,
+                width: width * 0.4,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.secondaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            const HeroIcon(
+                              HeroIcons.fire,
+                              size: 16,
+                              color: AppColors.secondaryColor,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              "${recipe.calories}cal",
+                              style: TextStyle(
+                                color: AppColors.secondaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            const HeroIcon(
+                              HeroIcons.cube,
+                              size: 16,
+                              color: AppColors.primaryColor,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              "${recipe.protein}g",
+                              style: const TextStyle(
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    recipe.name,
+                    style: Theme.of(context).textTheme.titleLarge,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    recipe.description,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
