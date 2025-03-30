@@ -349,8 +349,11 @@ class RecipeDetailsScreen extends StatelessWidget {
   Widget _buildDeleteButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        StaticData.yourrecipe?.remove(recipe);
+        // Remove recipe from user's recipes
+        StaticData.yourrecipe?.removeWhere((r) => r.id == recipe.id);
+        // Pop back to previous screen
         Navigator.of(context).pop();
+        // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Recipe removed from your meals'),
