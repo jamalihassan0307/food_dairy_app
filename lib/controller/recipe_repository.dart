@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_dairy_app/controller/sqllite.dart';
-import 'package:food_dairy_app/model.dart/RecppeModel.dart';
+import 'package:food_dairy_app/model.dart/RecipeModel.dart';
 import 'package:food_dairy_app/widget/constants/staticdata.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,7 +38,7 @@ class RecipeRepository extends GetxController {
         protein.text.isNotEmpty &&
         pre.text.isNotEmpty) {
       String id = DateTime.now().microsecond.toString();
-      Recipe model = Recipe(
+      RecipeModel model = RecipeModel(
           id: id,
           name: name.text,
           description: des.text,
