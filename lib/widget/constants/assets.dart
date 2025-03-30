@@ -21,9 +21,4 @@ class Assets {
   static const timeIcon = "assets/icons/time.png";
   static const difficultyIcon = "assets/icons/difficulty.png";
   static const servingsIcon = "assets/icons/servings.png";
-  
-  // Animations
-  static const cookingAnimation = "assets/animations/cooking.json";
-  static const successAnimation = "assets/animations/success.json";
-  static const loadingAnimation = "assets/animations/loading.json";
 }
