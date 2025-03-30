@@ -205,7 +205,7 @@ class AboutUsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 15),
                       _buildContactButton(
-                        icon: Icons.whatsapp,
+                        icon: Icons.phone,
                         title: "WhatsApp",
                         subtitle: "+92 307 3921189",
                         onTap: _launchWhatsApp,
