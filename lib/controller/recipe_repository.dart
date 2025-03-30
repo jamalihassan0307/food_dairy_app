@@ -71,12 +71,16 @@ class RecipeRepository extends GetxController {
         protein.text.isNotEmpty &&
         pre.text.isNotEmpty) {
       String id = DateTime.now().microsecond.toString();
+      
+      // Get the image path
+      String imagePath = image!.path;
+      
       RecipeModel model = RecipeModel(
         category: selectedCategory,
         id: id,
         name: name.text,
         description: des.text,
-        imageUrl: StaticData.fileToAsset(image!.path).toString(),
+        imageUrl: imagePath, // Use the direct file path
         calories: cal.text,
         protein: protein.text,
         prepTime: pre.text

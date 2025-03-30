@@ -5,6 +5,7 @@ import 'package:food_dairy_app/model.dart/RecipeModel.dart';
 import 'package:food_dairy_app/screen/recipe_details_screen.dart';
 import 'package:food_dairy_app/widget/theme/app_colors.dart';
 import 'package:animate_do/animate_do.dart';
+import 'dart:io';
 
 class LoadedRecipesWidget extends StatelessWidget {
   final List<RecipeModel> recipes;
@@ -73,30 +74,32 @@ class RecipeCardWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              bottomLeft: Radius.circular(20),
-            ),
-            child: Hero(
-              tag: 'recipe_${recipe.name}',
-              child: Image.asset(
-                recipe.imageUrl,
-                height: height * 0.24,
-                width: width * 0.4,
+          Container(
+            width: width * 0.35,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                bottomLeft: Radius.circular(20),
+              ),
+              image: DecorationImage(
+                image: recipe.imageUrl.contains("assets/")
+                    ? AssetImage(recipe.imageUrl) as ImageProvider
+                    : FileImage(File(recipe.imageUrl)) as ImageProvider,
                 fit: BoxFit.cover,
+                onError: (exception, stackTrace) {
+                  print('Error loading image: $exception');
+                  // You can set a default image here if needed
+                },
               ),
             ),
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -104,7 +107,7 @@ class RecipeCardWidget extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.secondaryColor.withOpacity(0.1),
+                          color: AppColors.primaryColor.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
@@ -112,19 +115,20 @@ class RecipeCardWidget extends StatelessWidget {
                             const Icon(
                               Icons.local_fire_department,
                               size: 16,
-                              color: AppColors.secondaryColor,
+                              color: AppColors.primaryColor,
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              "${recipe.calories}cal",
-                              style: TextStyle(
-                                color: AppColors.secondaryColor,
+                              "${recipe.calories} cal",
+                              style: const TextStyle(
+                                color: AppColors.primaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
                         ),
                       ),
+                      const SizedBox(width: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
@@ -154,6 +158,7 @@ class RecipeCardWidget extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8),
                   Text(
                     recipe.name,
                     style: Theme.of(context).textTheme.titleLarge,

@@ -96,17 +96,17 @@ class _Page2State extends State<Page2> {
                           _buildStatItem(
                             icon: Icons.local_fire_department,
                             label: "Total Calories",
-                            value: "2,450",
+                            value: "${obj.getTotalCalories()}",
                           ),
                           _buildStatItem(
                             icon: Icons.fitness_center,
                             label: "Protein",
-                            value: "120g",
+                            value: "${obj.getTotalProtein()}g",
                           ),
                           _buildStatItem(
                             icon: Icons.timer,
                             label: "Meals",
-                            value: "3",
+                            value: "${obj.getMealsCount()}",
                           ),
                         ],
                       ),
