@@ -72,34 +72,48 @@ class RecipeRepository extends GetxController {
         pre.text.isNotEmpty) {
       String id = DateTime.now().microsecond.toString();
       
-      // Get the image path
+      // Get the image path and ensure it's properly formatted
       String imagePath = image!.path;
       
+      // Create the recipe model with the file path
       RecipeModel model = RecipeModel(
         category: selectedCategory,
         id: id,
         name: name.text,
         description: des.text,
-        imageUrl: imagePath, // Use the direct file path
+        imageUrl: imagePath, // Store the actual file path
         calories: cal.text,
         protein: protein.text,
         prepTime: pre.text
       );
       
-      await DBHelper.insertRecipe(model);
-      await DBHelper.getAllRecipes(); // Refresh the recipes list
-      update(); // Update the UI
-      
-      Fluttertoast.showToast(
-        msg: "Recipe Added Successfully!",
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        gravity: ToastGravity.BOTTOM,
-        fontSize: 17,
-        timeInSecForIosWeb: 1,
-        toastLength: Toast.LENGTH_LONG,
-      );
-      cleardata();
+      try {
+        await DBHelper.insertRecipe(model);
+        await DBHelper.getAllRecipes(); // Refresh the recipes list
+        update(); // Update the UI
+        
+        Fluttertoast.showToast(
+          msg: "Recipe Added Successfully!",
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          gravity: ToastGravity.BOTTOM,
+          fontSize: 17,
+          timeInSecForIosWeb: 1,
+          toastLength: Toast.LENGTH_LONG,
+        );
+        cleardata();
+      } catch (e) {
+        print("Error adding recipe: $e");
+        Fluttertoast.showToast(
+          msg: "Error adding recipe. Please try again.",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          gravity: ToastGravity.BOTTOM,
+          fontSize: 17,
+          timeInSecForIosWeb: 1,
+          toastLength: Toast.LENGTH_LONG,
+        );
+      }
     } else {
       Fluttertoast.showToast(
         msg: "Please fill all fields!",

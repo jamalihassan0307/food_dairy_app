@@ -81,16 +81,43 @@ class RecipeCardWidget extends StatelessWidget {
                 topLeft: Radius.circular(20),
                 bottomLeft: Radius.circular(20),
               ),
-              image: DecorationImage(
-                image: recipe.imageUrl.contains("assets/")
-                    ? AssetImage(recipe.imageUrl) as ImageProvider
-                    : FileImage(File(recipe.imageUrl)) as ImageProvider,
-                fit: BoxFit.cover,
-                onError: (exception, stackTrace) {
-                  print('Error loading image: $exception');
-                  // You can set a default image here if needed
-                },
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                bottomLeft: Radius.circular(20),
               ),
+              child: recipe.imageUrl.contains("assets/")
+                  ? Image.asset(
+                      recipe.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        print('Error loading asset image: $error');
+                        return Container(
+                          color: AppColors.primaryColor.withOpacity(0.1),
+                          child: Icon(
+                            Icons.restaurant,
+                            color: AppColors.primaryColor,
+                            size: 40,
+                          ),
+                        );
+                      },
+                    )
+                  : Image.file(
+                      File(recipe.imageUrl),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        print('Error loading file image: $error');
+                        return Container(
+                          color: AppColors.primaryColor.withOpacity(0.1),
+                          child: Icon(
+                            Icons.restaurant,
+                            color: AppColors.primaryColor,
+                            size: 40,
+                          ),
+                        );
+                      },
+                    ),
             ),
           ),
           Expanded(
