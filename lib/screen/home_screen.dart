@@ -8,7 +8,9 @@ import 'package:food_dairy_app/screen/nev_bar/page2.dart';
 import 'package:food_dairy_app/screen/addfood.dart';
 import 'package:food_dairy_app/screen/nev_bar/profile.dart';
 import 'package:food_dairy_app/screen/settingScreen.dart';
+import 'package:food_dairy_app/widget/theme/app_colors.dart';
 import 'package:get/get.dart';
+import 'package:animate_do/animate_do.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,6 +30,18 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController page = PageController();
   int currentIndex = 0;
 
+  final List<IconData> icons = [
+    Icons.home_rounded,
+    Icons.analytics_rounded,
+    Icons.person_rounded,
+  ];
+
+  final List<String> labels = [
+    'Home',
+    'Analytics',
+    'Profile',
+  ];
+
   var height, width;
   @override
   Widget build(BuildContext context) {
@@ -35,50 +49,104 @@ class _HomeScreenState extends State<HomeScreen> {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: PageView(
-        controller: page,
-        onPageChanged: (index) => setState(() => currentIndex = index),
-        children: const [Page1(), Page2(), SettingsScreen()],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
+      body: Stack(
+        children: [
+          // Page View
+          PageView(
+            controller: page,
+            onPageChanged: (index) => setState(() => currentIndex = index),
+            children: const [Page1(), Page2(), SettingsScreen()],
+          ),
+          
+          // Add Recipe Button
+          Positioned(
+            bottom: 90,
+            right: 20,
+            child: FadeInUp(
+              duration: const Duration(milliseconds: 800),
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AddFood()),
+                  );
+                },
+                backgroundColor: AppColors.secondaryColor,
+                child: const Icon(Icons.add, size: 28),
+              ),
             ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildNavItem(Icons.map_outlined, 0),
-            _buildNavItem(Icons.data_exploration_outlined, 1),
-            _buildNavItem(Icons.person, 2),
-          ],
-        ),
+          ),
+
+          // Bottom Navigation Bar
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: FadeInUp(
+              duration: const Duration(milliseconds: 800),
+              child: Container(
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, -5),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    icons.length,
+                    (index) => _buildNavItem(icons[index], labels[index], index),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, int index) {
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    bool isSelected = currentIndex == index;
     return GestureDetector(
       onTap: () {
         setState(() => currentIndex = index);
-        page.jumpToPage(index);
+        page.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
       },
-      child: Container(
-        width: index == 1 ? width * 0.3 : width * 0.2,
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Icon(
-          icon,
-          color: currentIndex == index ? Colors.blue : Colors.grey,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primaryColor.withOpacity(0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: isSelected ? AppColors.primaryColor : Colors.grey,
+              size: 28,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? AppColors.primaryColor : Colors.grey,
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              ),
+            ),
+          ],
         ),
       ),
     );
