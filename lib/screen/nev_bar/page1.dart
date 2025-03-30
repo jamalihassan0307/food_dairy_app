@@ -35,7 +35,8 @@ class _Page1State extends State<Page1> {
   @override
   void initState() {
     super.initState();
-    filteredRecipes = StaticData.yourrecipe ?? [];
+    // Combine default recipes and user recipes
+    filteredRecipes = [...makeRecipes, ...(StaticData.yourrecipe ?? [])];
     _searchController.addListener(_filterRecipes);
   }
 
@@ -50,7 +51,8 @@ class _Page1State extends State<Page1> {
       String searchQuery = _searchController.text.toLowerCase();
       String selectedCategory = categories[selectedCategoryIndex].toLowerCase();
 
-      filteredRecipes = (StaticData.yourrecipe ?? []).where((recipe) {
+      // Filter from both sources
+      filteredRecipes = [...makeRecipes, ...(StaticData.yourrecipe ?? [])].where((recipe) {
         bool matchesSearch = recipe.name.toLowerCase().contains(searchQuery);
         bool matchesCategory = selectedCategory == 'all' || 
                              recipe.name.toLowerCase().contains(selectedCategory);
