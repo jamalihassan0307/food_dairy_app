@@ -11,6 +11,8 @@ class RecipeModel {
   final String calories;
   final String protein;
   final String prepTime;
+  final String category;
+
   RecipeModel({
     required this.id,
     required this.name,
@@ -19,6 +21,7 @@ class RecipeModel {
     required this.calories,
     required this.protein,
     required this.prepTime,
+    required this.category,
   });
 
   RecipeModel copyWith({
@@ -29,6 +32,7 @@ class RecipeModel {
     String? calories,
     String? protein,
     String? prepTime,
+    String? category,
   }) {
     return RecipeModel(
       id: id ?? this.id,
@@ -38,6 +42,7 @@ class RecipeModel {
       calories: calories ?? this.calories,
       protein: protein ?? this.protein,
       prepTime: prepTime ?? this.prepTime,
+      category: category ?? this.category,
     );
   }
 
@@ -50,6 +55,7 @@ class RecipeModel {
       'calories': calories,
       'protein': protein,
       'prepTime': prepTime,
+      'category': category,
     };
   }
 
@@ -62,6 +68,7 @@ class RecipeModel {
       calories: map['calories'] as String,
       protein: map['protein'] as String,
       prepTime: map['prepTime'] as String,
+      category: map['category'] as String,
     );
   }
 
@@ -72,7 +79,7 @@ class RecipeModel {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, name: $name, description: $description, imageUrl: $imageUrl, calories: $calories, protein: $protein, prepTime: $prepTime)';
+    return 'Recipe(id: $id, name: $name, description: $description, imageUrl: $imageUrl, calories: $calories, protein: $protein, prepTime: $prepTime, category: $category)';
   }
 
   @override
@@ -85,7 +92,8 @@ class RecipeModel {
         other.imageUrl == imageUrl &&
         other.calories == calories &&
         other.protein == protein &&
-        other.prepTime == prepTime;
+        other.prepTime == prepTime &&
+        other.category == category;
   }
 
   @override
@@ -96,58 +104,61 @@ class RecipeModel {
         imageUrl.hashCode ^
         calories.hashCode ^
         protein.hashCode ^
-        prepTime.hashCode;
+        prepTime.hashCode ^
+        category.hashCode;
   }
 }
 
 List<RecipeModel> makeRecipes = [
   RecipeModel(
-      id: "1",
-      name: "Spaghetti Bolognese",
-      description: "A classic Italian meat sauce served over pasta",
-      imageUrl: "assets/images/spaghetti.png",
-      calories: "650",
-      protein: "35",
-      prepTime: "60"),
+    id: "1",
+    name: "Spaghetti Bolognese",
+    description: "A classic Italian meat sauce served over pasta",
+    imageUrl: "assets/images/spaghetti.png",
+    calories: "650",
+    protein: "35",
+    prepTime: "60",
+    category: "Italian",
+  ),
   RecipeModel(
     id: "2",
     name: "Chicken Parmesan",
-    description:
-        "Breaded chicken breast topped with tomato sauce and mozzarella",
+    description: "Breaded chicken breast topped with tomato sauce and mozzarella",
     imageUrl: "assets/images/chicken.png",
     calories: "550",
     protein: "45",
     prepTime: "30",
+    category: "Italian",
   ),
   RecipeModel(
     id: "3",
     name: "Caesar Salad",
-    description:
-        "Romaine lettuce with creamy Caesar dressing, croutons and parmesan",
+    description: "Romaine lettuce with creamy Caesar dressing, croutons and parmesan",
     imageUrl: "assets/images/salad.png",
     calories: "250",
     protein: "10",
     prepTime: "10",
+    category: "Salads",
   ),
   RecipeModel(
     id: "4",
     name: "Tacos",
-    description:
-        "Soft tortilla shells filled with seasoned ground beef, lettuce, cheese and salsa",
+    description: "Soft tortilla shells filled with seasoned ground beef, lettuce, cheese and salsa",
     imageUrl: "assets/images/tacos.png",
     calories: "500",
     protein: "20",
     prepTime: "20",
+    category: "Mexican",
   ),
   RecipeModel(
     id: "5",
     name: "Pasta Alfredo",
-    description:
-        "Fettuccine pasta tossed in a rich, creamy parmesan cheese sauce",
+    description: "Fettuccine pasta tossed in a rich, creamy parmesan cheese sauce",
     imageUrl: "assets/images/alfredo.png",
     calories: "800",
     protein: "15",
     prepTime: "15",
+    category: "Italian",
   ),
   RecipeModel(
     id: "6",
@@ -157,16 +168,17 @@ List<RecipeModel> makeRecipes = [
     calories: "700",
     protein: "20",
     prepTime: "40",
+    category: "Italian",
   ),
   RecipeModel(
     id: "7",
     name: "Hamburger",
-    description:
-        "Juicy beef patty with lettuce, tomato, onion and cheese on a bun",
+    description: "Juicy beef patty with lettuce, tomato, onion and cheese on a bun",
     imageUrl: "assets/images/burger.png",
     calories: "650",
     protein: "25",
     prepTime: "15",
+    category: "Fast Food",
   ),
   RecipeModel(
     id: "8",
@@ -176,6 +188,7 @@ List<RecipeModel> makeRecipes = [
     calories: "200",
     protein: "3",
     prepTime: "30",
+    category: "Desserts",
   ),
   RecipeModel(
     id: "9",
@@ -185,5 +198,6 @@ List<RecipeModel> makeRecipes = [
     calories: "450",
     protein: "25",
     prepTime: "30",
+    category: "Asian",
   ),
 ];

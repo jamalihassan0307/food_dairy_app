@@ -50,6 +50,7 @@ class DBHelper {
     CREATE TABLE recipes (
       id TEXT PRIMARY KEY,
       name TEXT,
+      category TEXT,
       description TEXT,
       imageUrl TEXT,
       calories TEXT,
@@ -95,6 +96,7 @@ class DBHelper {
       final List<Map<String, dynamic>> maps = await dbClient!.query('recipes');
       List<RecipeModel> recipe = List.generate(maps.length, (i) {
         return RecipeModel(
+          category: maps[i]['category'],
           id: maps[i]['id'],
           name: maps[i]['name'],
           description: maps[i]['description'],
