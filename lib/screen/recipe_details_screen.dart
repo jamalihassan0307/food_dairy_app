@@ -5,6 +5,7 @@ import 'package:food_dairy_app/widget/theme/app_colors.dart';
 import 'package:food_dairy_app/widget/constants/staticdata.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class RecipeDetailsScreen extends StatelessWidget {
   final RecipeModel recipe;
@@ -24,195 +25,236 @@ class RecipeDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 25,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      recipe.name,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.favorite_outline,
-                        size: 25,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Image
-              FadeInDown(
-                duration: const Duration(milliseconds: 800),
-                child: Container(
-                  height: height * 0.3,
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      recipe.imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Stats Card
-              FadeInDown(
-                delay: const Duration(milliseconds: 200),
-                duration: const Duration(milliseconds: 800),
-                child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: AppColors.cardColor,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.white.withOpacity(0.1)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildInfoViewer(
-                        icon: Icons.local_fire_department,
-                        name: 'Calories',
-                        amount: recipe.calories,
-                        color: Colors.orange,
-                      ),
-                      _buildInfoViewer(
-                        icon: Icons.fitness_center,
-                        name: 'Protein',
-                        amount: recipe.protein,
-                        color: Colors.blue,
-                      ),
-                      _buildInfoViewer(
-                        icon: Icons.timer,
-                        name: 'Prep Time',
-                        amount: recipe.prepTime,
-                        color: Colors.green,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-
-              // Description
-              FadeInDown(
-                delay: const Duration(milliseconds: 400),
-                duration: const Duration(milliseconds: 800),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Description",
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        recipe.description,
-                        style: TextStyle(
-                          color: AppColors.textSecondaryColor,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-
-              // Category
-              FadeInDown(
-                delay: const Duration(milliseconds: 600),
-                duration: const Duration(milliseconds: 800),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Category",
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          recipe.category,
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          // Header with Image
+          SliverAppBar(
+            expandedHeight: height * 0.4,
+            pinned: true,
+            backgroundColor: Colors.transparent,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  // Background Image
+                  Hero(
+                    tag: 'recipe_${recipe.id}',
+                    child: recipe.imageUrl.contains("assets/")
+                        ? Image.asset(
+                            recipe.imageUrl,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            File(recipe.imageUrl),
+                            fit: BoxFit.cover,
                           ),
-                        ),
-                      ),
-                    ],
                   ),
+                  // Gradient Overlay
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.7),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            leading: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 20,
+                  color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 30),
-
-              // Action Button
-              FadeInUp(
-                delay: const Duration(milliseconds: 800),
-                duration: const Duration(milliseconds: 800),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: isFromYourRecipes
-                      ? _buildDeleteButton(context)
-                      : _buildAddButton(context),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.favorite_outline,
+                    size: 20,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
           ),
-        ),
+
+          // Content
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title and Category
+                  FadeInDown(
+                    duration: const Duration(milliseconds: 800),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          recipe.name,
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            recipe.category,
+                            style: TextStyle(
+                              color: AppColors.primaryColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Stats Card
+                  FadeInDown(
+                    delay: const Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 800),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: AppColors.cardColor,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.white.withOpacity(0.1)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _buildInfoViewer(
+                            icon: Icons.local_fire_department,
+                            name: 'Calories',
+                            amount: recipe.calories,
+                            color: Colors.orange,
+                          ),
+                          _buildInfoViewer(
+                            icon: Icons.fitness_center,
+                            name: 'Protein',
+                            amount: recipe.protein,
+                            color: Colors.blue,
+                          ),
+                          _buildInfoViewer(
+                            icon: Icons.timer,
+                            name: 'Prep Time',
+                            amount: recipe.prepTime,
+                            color: Colors.green,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Description
+                  FadeInDown(
+                    delay: const Duration(milliseconds: 400),
+                    duration: const Duration(milliseconds: 800),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryColor.withOpacity(0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.description,
+                                color: AppColors.primaryColor,
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              "Description",
+                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          recipe.description,
+                          style: TextStyle(
+                            color: AppColors.textSecondaryColor,
+                            fontSize: 16,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Action Buttons
+                  FadeInUp(
+                    delay: const Duration(milliseconds: 800),
+                    duration: const Duration(milliseconds: 800),
+                    child: isFromYourRecipes
+                        ? Row(
+                            children: [
+                              Expanded(
+                                child: _buildEditButton(context),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: _buildDeleteButton(context),
+                              ),
+                            ],
+                          )
+                        : _buildAddButton(context),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -260,7 +302,6 @@ class RecipeDetailsScreen extends StatelessWidget {
   Widget _buildAddButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Add recipe to user's recipes
         if (StaticData.yourrecipe == null) {
           StaticData.yourrecipe = [];
         }
@@ -311,7 +352,6 @@ class RecipeDetailsScreen extends StatelessWidget {
   Widget _buildDeleteButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Remove recipe from user's recipes
         StaticData.yourrecipe?.remove(recipe);
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -322,7 +362,6 @@ class RecipeDetailsScreen extends StatelessWidget {
         );
       },
       child: Container(
-        width: double.infinity,
         height: 60,
         decoration: BoxDecoration(
           color: Colors.red.withOpacity(0.1),
@@ -331,9 +370,40 @@ class RecipeDetailsScreen extends StatelessWidget {
         ),
         child: const Center(
           child: Text(
-            'Remove from My Meals',
+            'Delete',
             style: TextStyle(
               color: Colors.red,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEditButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Edit functionality coming soon'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      },
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: AppColors.primaryColor),
+        ),
+        child: const Center(
+          child: Text(
+            'Edit',
+            style: TextStyle(
+              color: AppColors.primaryColor,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),

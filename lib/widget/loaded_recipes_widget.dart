@@ -9,9 +9,13 @@ import 'dart:io';
 
 class LoadedRecipesWidget extends StatelessWidget {
   final List<RecipeModel> recipes;
+  
+  final bool isFromYourRecipes;
+  
   const LoadedRecipesWidget({
     super.key,
     required this.recipes,
+    required this.isFromYourRecipes,
   });
 
   @override
@@ -29,6 +33,7 @@ class LoadedRecipesWidget extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => RecipeDetailsScreen(
                     recipe: recipes[index],
+                    isFromYourRecipes: isFromYourRecipes,
                   ),
                 ),
               );
