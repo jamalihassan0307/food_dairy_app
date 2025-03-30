@@ -1,12 +1,15 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_dairy_app/controller/sqllite.dart';
-import 'package:food_dairy_app/screen/home_screen.dart';
-import 'package:get/get.dart';
+import 'package:food_dairy_app/screen/loginScreen.dart';
+import 'package:food_dairy_app/widget/theme/app_theme.dart';
+import 'package:flutter/material.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await DBHelper.initDatabase();
+Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: mainTheme.scaffoldBackgroundColor,
+      statusBarBrightness: Brightness.light));
   runApp(const MyApp());
+  await DBHelper.initDatabase();
 }
 
 class MyApp extends StatelessWidget {
@@ -14,13 +17,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       title: 'Food Dairy App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: mainTheme.scaffoldBackgroundColor),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+
+      home: const LoginScreen(),
+      // HomeScreen(),
+      darkTheme: mainTheme,
+      themeMode: ThemeMode.dark,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -10,34 +10,25 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DBHelper {
-  static Database? _database;
-  static const String tableName = 'recipes';
+  static Database? _dbase;
 
-  static Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await initDatabase();
-    return _database!;
+  static Future<Database?> get db async {
+    if (_dbase != null) {
+      return _dbase!;
+    }
+    _dbase = await initDatabase();
+    return _dbase!;
   }
 
   static Future<Database> initDatabase() async {
     // deleteOldDatabase();
     print("Database created");
-    String path = join(await getDatabasesPath(), 'food_dairy.db');
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: (Database db, int version) async {
-        await db.execute('''
-          CREATE TABLE $tableName(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            description TEXT,
-            image TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-          )
-        ''');
-      },
-    );
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentDirectory.path, 'userDB.db');
+    return openDatabase(path, version: 1, onCreate: (db, version) async {
+      await createUsersTable(db, version);
+      await createRecipesTable(db, version);
+    });
   }
 
   static Future<void> createUsersTable(Database db, int version) async {
@@ -79,17 +70,17 @@ class DBHelper {
   }
 
   static Future<void> insertUser(UserModel user) async {
-    final dbClient = await database;
+    final dbClient = await db;
     await dbClient!.insert('users', user.toMap());
   }
 
   static Future<void> insertRecipe(Recipe r) async {
-    final dbClient = await database;
+    final dbClient = await db;
     await dbClient!.insert('recipes', r.toMap());
   }
 
   static Future<void> updateUserById(int id, UserModel updatedUser) async {
-    final dbClient = await database;
+    final dbClient = await db;
     await dbClient!.update(
       'users',
       updatedUser.toMap(),
@@ -100,14 +91,14 @@ class DBHelper {
 
   static Future<List<Recipe?>?> getAllRecipes() async {
     try {
-      final db = await database;
-      final List<Map<String, dynamic>> maps = await db.query(tableName);
+      final dbClient = await db;
+      final List<Map<String, dynamic>> maps = await dbClient!.query('recipes');
       List<Recipe> recipe = List.generate(maps.length, (i) {
         return Recipe(
-          id: maps[i]['id'].toString(),
+          id: maps[i]['id'],
           name: maps[i]['name'],
           description: maps[i]['description'],
-          imageUrl: maps[i]['image'],
+          imageUrl: maps[i]['imageUrl'],
           calories: maps[i]['calories'],
           protein: maps[i]['protein'],
           prepTime: maps[i]['prepTime'],
@@ -123,8 +114,8 @@ class DBHelper {
 
   static Future<UserModel?> getUserByEmailAndPassword(
       String email, String password) async {
-    final Database? db = await database;
-    final List<Map<String, dynamic>> maps = await db!.query(
+    final Database? database = await db;
+    final List<Map<String, dynamic>> maps = await database!.query(
       'users',
       where: 'email = ? AND password = ?',
       whereArgs: [email, password],
@@ -148,7 +139,7 @@ class DBHelper {
   }
 
   static Future<void> updateUser(UserModel user) async {
-    final dbClient = await database;
+    final dbClient = await db;
     await dbClient!.update(
       'users',
       user.toMap(),
@@ -158,7 +149,7 @@ class DBHelper {
   }
 
   static Future<void> deleteUser(int id) async {
-    final dbClient = await database;
+    final dbClient = await db;
     await dbClient!.delete(
       'users',
       where: 'id = ?',
@@ -167,7 +158,7 @@ class DBHelper {
   }
 
   static Future<void> close() async {
-    final dbClient = await database;
+    final dbClient = await db;
     dbClient!.close();
   }
 }
