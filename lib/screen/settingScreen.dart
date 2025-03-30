@@ -95,7 +95,7 @@ class SettingsScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AddData(),
+                      builder: (context) => const AddFood(),
                     ));
               },
               leading: Container(
