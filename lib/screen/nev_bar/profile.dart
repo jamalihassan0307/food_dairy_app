@@ -42,6 +42,7 @@ class _ProfileState extends State<Profile> {
       body: GetBuilder<ProfileController>(
         init: ProfileController(),
         builder: (obj) {
+          print("84728rhweuhfhf ${StaticData.model!.image}");
           return SafeArea(
             child: Column(
               children: [
@@ -103,7 +104,7 @@ class _ProfileState extends State<Profile> {
                                               obj.image!,
                                               fit: BoxFit.cover,
                                             )
-                                          : FutureBuilder(
+                                          : !StaticData.model!.image.contains("assets") ? FutureBuilder(
                                               future: StaticData.assetToFile(StaticData.model!.image),
                                               builder: (BuildContext context, snapshot) {
                                                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -122,12 +123,12 @@ class _ProfileState extends State<Profile> {
                                                   );
                                                 }
 
-                                                return Image.file(
-                                                  snapshot.requireData,
+                                                return Image.asset(
+                                                  StaticData.model!.image,
                                                   fit: BoxFit.cover,
                                                 );
                                               },
-                                            ),
+                                            ) : const SizedBox(),
                                     ),
                                   ),
                                   Positioned(
