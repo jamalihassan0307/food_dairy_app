@@ -130,11 +130,12 @@ class _AddFoodState extends State<AddFood> {
                           // Category Selection
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: AppColors.cardColor,
                               borderRadius: BorderRadius.circular(15),
+                              border: Border.all(color: Colors.white.withOpacity(0.1)),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.primaryColor.withOpacity(0.1),
+                                  color: Colors.black.withOpacity(0.1),
                                   blurRadius: 10,
                                   offset: const Offset(0, 5),
                                 ),
@@ -146,30 +147,30 @@ class _AddFoodState extends State<AddFood> {
                                 decoration: InputDecoration(
                                   hintText: "Select Category",
                                   hintStyle: TextStyle(
-                                    color: AppColors.textSecondaryColor,
+                                    color: Colors.white.withOpacity(0.5),
                                     fontSize: 16,
                                   ),
-                                  prefixIcon: Icon(Icons.category, color: AppColors.primaryColor),
+                                  prefixIcon: Icon(Icons.category, color: Colors.white.withOpacity(0.7)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
                                     borderSide: BorderSide.none,
                                   ),
                                   filled: true,
-                                  fillColor: Colors.white,
+                                  fillColor: AppColors.cardColor,
                                   contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 20,
                                     vertical: 15,
                                   ),
                                 ),
+                                dropdownColor: AppColors.cardColor,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
                                 items: obj.categories.map((String category) {
                                   return DropdownMenuItem<String>(
                                     value: category,
-                                    child: Text(
-                                      category,
-                                      style: TextStyle(
-                                        color: AppColors.textColor,
-                                      ),
-                                    ),
+                                    child: Text(category),
                                   );
                                 }).toList(),
                                 onChanged: (String? newValue) {
@@ -280,11 +281,12 @@ class _AddFoodState extends State<AddFood> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardColor,
         borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.white.withOpacity(0.1)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryColor.withOpacity(0.1),
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -294,23 +296,23 @@ class _AddFoodState extends State<AddFood> {
         controller: controller,
         keyboardType: keyboardType,
         maxLines: maxLines ?? 1,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
-          color: AppColors.textColor,
+          color: Colors.white,
         ),
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(
-            color: AppColors.textSecondaryColor,
+            color: Colors.white.withOpacity(0.5),
             fontSize: 16,
           ),
-          prefixIcon: Icon(icon, color: AppColors.primaryColor),
+          prefixIcon: Icon(icon, color: Colors.white.withOpacity(0.7)),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide.none,
           ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: AppColors.cardColor,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 15,
