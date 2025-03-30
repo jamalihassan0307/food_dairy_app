@@ -39,6 +39,7 @@ class RecipeRepository extends GetxController {
         pre.text.isNotEmpty) {
       String id = DateTime.now().microsecond.toString();
       RecipeModel model = RecipeModel(
+        category: "",
           id: id,
           name: name.text,
           description: des.text,
