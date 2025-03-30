@@ -236,19 +236,16 @@ class RecipeDetailsScreen extends StatelessWidget {
                   FadeInUp(
                     delay: const Duration(milliseconds: 800),
                     duration: const Duration(milliseconds: 800),
-                    child: isFromYourRecipes
-                        ? Row(
-                            children: [
-                              Expanded(
-                                child: _buildEditButton(context),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: _buildDeleteButton(context),
-                              ),
-                            ],
-                          )
-                        : _buildAddButton(context),
+                    child: Column(
+                      children: [
+                        if (isFromYourRecipes) ...[
+                          _buildEditButton(context),
+                          const SizedBox(height: 10),
+                          _buildDeleteButton(context),
+                        ] else
+                          _buildAddButton(context),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -362,6 +359,7 @@ class RecipeDetailsScreen extends StatelessWidget {
         );
       },
       child: Container(
+        width: double.infinity,
         height: 60,
         decoration: BoxDecoration(
           color: Colors.red.withOpacity(0.1),
@@ -393,6 +391,7 @@ class RecipeDetailsScreen extends StatelessWidget {
         );
       },
       child: Container(
+        width: double.infinity,
         height: 60,
         decoration: BoxDecoration(
           color: AppColors.primaryColor.withOpacity(0.1),

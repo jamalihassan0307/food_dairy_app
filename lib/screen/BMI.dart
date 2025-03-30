@@ -51,9 +51,9 @@ class _BMICalculatorState extends State<BMICalculator> {
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
+        child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+          children: [
                 // Header
                 FadeInDown(
                   duration: const Duration(milliseconds: 800),
@@ -71,18 +71,18 @@ class _BMICalculatorState extends State<BMICalculator> {
                 FadeInDown(
                   delay: const Duration(milliseconds: 200),
                   duration: const Duration(milliseconds: 800),
-                  child: Row(
-                    children: [
-                      Expanded(
+              child: Row(
+                children: [
+                  Expanded(
                         child: _buildGenderCard(
                           icon: FontAwesomeIcons.mars,
                           label: 'MALE',
                           isSelected: selectedCard == Gender.male,
                           onTap: () => setState(() => selectedCard = Gender.male),
-                        ),
+                            ),
                       ),
                       const SizedBox(width: 20),
-                      Expanded(
+                  Expanded(
                         child: _buildGenderCard(
                           icon: FontAwesomeIcons.venus,
                           label: 'FEMALE',
@@ -104,7 +104,7 @@ class _BMICalculatorState extends State<BMICalculator> {
                     value: sliderValue,
                     unit: 'cm',
                     child: Column(
-                      children: [
+                children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -116,27 +116,27 @@ class _BMICalculatorState extends State<BMICalculator> {
                             ),
                             Expanded(
                               child: Slider(
-                                value: sliderValue.toDouble(),
-                                min: 0.0,
-                                max: 250.0,
-                                onChanged: (value) {
+                                  value: sliderValue.toDouble(),
+                                  min: 0.0,
+                                  max: 250.0,
+                                  onChanged: (value) {
                                   setState(() => sliderValue = value.toInt());
-                                },
+                                  },
                                 activeColor: AppColors.primaryColor,
                                 inactiveColor: AppColors.primaryColor.withOpacity(0.2),
                               ),
-                            ),
+                                ),
                             _buildControlButton(
                               icon: FontAwesomeIcons.plus,
                               onTap: () => setState(() {
                                 if (sliderValue < 250) sliderValue++;
                               }),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                                ),
+                              ],
                   ),
+                ],
+              ),
+            ),
                 ),
                 const SizedBox(height: 20),
 
@@ -144,9 +144,9 @@ class _BMICalculatorState extends State<BMICalculator> {
                 FadeInDown(
                   delay: const Duration(milliseconds: 600),
                   duration: const Duration(milliseconds: 800),
-                  child: Row(
-                    children: [
-                      Expanded(
+              child: Row(
+                children: [
+                  Expanded(
                         child: _buildInputCard(
                           title: 'Weight',
                           value: weight,
@@ -167,8 +167,8 @@ class _BMICalculatorState extends State<BMICalculator> {
                               ),
                             ],
                           ),
+                          ),
                         ),
-                      ),
                       const SizedBox(width: 20),
                       Expanded(
                         child: _buildInputCard(
@@ -176,8 +176,8 @@ class _BMICalculatorState extends State<BMICalculator> {
                           value: Age,
                           unit: 'years',
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
                               _buildControlButton(
                                 icon: FontAwesomeIcons.minus,
                                 onTap: () => setState(() {
@@ -190,12 +190,12 @@ class _BMICalculatorState extends State<BMICalculator> {
                                 onTap: () => setState(() => Age++),
                               ),
                             ],
-                          ),
-                        ),
-                      ),
-                    ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                   ),
-                ),
+                  ),
                 const SizedBox(height: 30),
 
                 // Calculate Button
@@ -203,20 +203,20 @@ class _BMICalculatorState extends State<BMICalculator> {
                   delay: const Duration(milliseconds: 800),
                   duration: const Duration(milliseconds: 800),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ResultPage(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ResultPage(
                             height: sliderValue,
                             weight: weight,
                             age: Age,
                           ),
                         ),
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
+                );
+              },
+              child: Container(
+                width: double.infinity,
                       height: 60,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -237,12 +237,12 @@ class _BMICalculatorState extends State<BMICalculator> {
                         ],
                       ),
                       child: const Center(
-                        child: Text(
+                  child: Text(
                           'CALCULATE BMI',
-                          style: TextStyle(
+                    style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -449,30 +449,30 @@ class _ResultPageState extends State<ResultPage> {
                 FadeInDown(
                   delay: const Duration(milliseconds: 200),
                   duration: const Duration(milliseconds: 800),
-                  child: Container(
+        child: Container(
                     padding: const EdgeInsets.all(30),
                     decoration: BoxDecoration(
                       color: AppColors.cardColor,
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Colors.white.withOpacity(0.1)),
                     ),
-                    child: Column(
-                      children: [
-                        Text(
+          child: Column(
+            children: [
+              Text(
                           bmires.toStringAsFixed(1),
-                          style: TextStyle(
+                style: TextStyle(
                             fontSize: 60,
-                            fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                             color: bmiColor,
-                          ),
-                        ),
+              ),
+              ),
                         const SizedBox(height: 10),
-                        Text(
+              Text(
                           bmiCategory,
-                          style: TextStyle(
+                style: TextStyle(
                             fontSize: 24,
                             color: bmiColor,
-                            fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -503,8 +503,8 @@ class _ResultPageState extends State<ResultPage> {
                       ],
                     ),
                   ),
-                ),
-              ],
+              ),
+            ],
             ),
           ),
         ),
