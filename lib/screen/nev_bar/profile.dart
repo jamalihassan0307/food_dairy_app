@@ -6,6 +6,8 @@ import 'package:food_dairy_app/widget/constants/staticdata.dart';
 import 'package:food_dairy_app/widget/theme/app_colors.dart';
 import 'package:get/get.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -19,6 +21,16 @@ class _ProfileState extends State<Profile> {
   void initState() {
     // Get.put(ProfileController());
     super.initState();
+  }
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    
+    if (pickedFile != null) {
+      Get.find<ProfileController>().image = File(pickedFile.path);
+      setState(() {});
+    }
   }
 
   @override
@@ -85,47 +97,55 @@ class _ProfileState extends State<Profile> {
                                         ),
                                       ],
                                     ),
-                                    child: FutureBuilder(
-                                      future: StaticData.assetToFile(StaticData.model!.image),
-                                      builder: (BuildContext context, snapshot) {
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return const Center(
-                                            child: CircularProgressIndicator(
-                                              color: AppColors.primaryColor,
+                                    child: ClipOval(
+                                      child: obj.image != null
+                                          ? Image.file(
+                                              obj.image!,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : FutureBuilder(
+                                              future: StaticData.assetToFile(StaticData.model!.image),
+                                              builder: (BuildContext context, snapshot) {
+                                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                                  return const Center(
+                                                    child: CircularProgressIndicator(
+                                                      color: AppColors.primaryColor,
+                                                    ),
+                                                  );
+                                                }
+
+                                                if (snapshot.hasError) {
+                                                  return const Icon(
+                                                    Icons.error_outline,
+                                                    color: AppColors.primaryColor,
+                                                    size: 40,
+                                                  );
+                                                }
+
+                                                return Image.file(
+                                                  snapshot.requireData,
+                                                  fit: BoxFit.cover,
+                                                );
+                                              },
                                             ),
-                                          );
-                                        }
-
-                                        if (snapshot.hasError) {
-                                          return const Icon(
-                                            Icons.error_outline,
-                                            color: AppColors.primaryColor,
-                                            size: 40,
-                                          );
-                                        }
-
-                                        return ClipOval(
-                                          child: Image.file(
-                                            snapshot.requireData,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        );
-                                      },
                                     ),
                                   ),
                                   Positioned(
                                     bottom: 0,
                                     right: 0,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.primaryColor,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: const Icon(
-                                        Icons.camera_alt,
-                                        color: Colors.white,
-                                        size: 20,
+                                    child: InkWell(
+                                      onTap: _pickImage,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primaryColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -268,7 +288,7 @@ class _ProfileState extends State<Profile> {
                                 _buildTextField(
                                   controller: obj.password,
                                   icon: Icons.lock_outline,
-                                  hint: "Change Password",
+                                  hint: "Change Password (Optional)",
                                   isPassword: true,
                                 ),
                               ],
