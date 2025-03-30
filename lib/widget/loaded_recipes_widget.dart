@@ -110,8 +110,8 @@ class RecipeCardWidget extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            const HeroIcon(
-                              HeroIcons.fire,
+                            const Icon(
+                              Icons.local_fire_department,
                               size: 16,
                               color: AppColors.secondaryColor,
                             ),
@@ -137,8 +137,8 @@ class RecipeCardWidget extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            const HeroIcon(
-                              HeroIcons.cube,
+                            const Icon(
+                              Icons.fitness_center,
                               size: 16,
                               color: AppColors.primaryColor,
                             ),

@@ -6,7 +6,6 @@ import 'package:food_dairy_app/screen/SignupScreen.dart';
 import 'package:food_dairy_app/widget/constants/staticdata.dart';
 import 'package:food_dairy_app/widget/theme/app_colors.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:animate_do/animate_do.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,37 +15,12 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
-
+class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     Get.put(LoginController());
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    );
-
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
-    );
-
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.5),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-
-    _controller.forward();
     StaticData.retrieveCredentials(context);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
