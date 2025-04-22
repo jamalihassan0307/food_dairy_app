@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Food Diary App',
+      title: 'NutriTrack',
       debugShowCheckedModeBanner: false,
-      theme: mainTheme,
+      theme: mainTheme, 
       home: const SplashScreen(),
     );
   }
