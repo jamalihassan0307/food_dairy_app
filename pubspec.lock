@@ -150,6 +150,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_blur:
+    dependency: transitive
+    description:
+      name: flutter_blur
+      sha256: "0be9d31edfbdab758bf1b8ad37525b33580d3153cc249a5e4f83c6caf1272c2e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -200,6 +208,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.7.2"
+  glassmorphic_ui_kit:
+    dependency: "direct main"
+    description:
+      path: "E:\\glassmorphic_ui_kit"
+      relative: false
+    source: path
+    version: "1.0.0"
   google_fonts:
     dependency: "direct main"
     description:
