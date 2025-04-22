@@ -6,6 +6,11 @@
   <h3>A Modern App for Tracking Your Daily Meals and Nutrition</h3>
 </div>
 
+## 📸 Banner
+<p align="center">
+    <img src="food_dairy_app_banner.png" alt="NutriTrack Banner" width="100%"/>
+</p>
+
 <p align="center">
     <img alt="Flutter" src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
     <img alt="Dart" src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" />
