@@ -8,7 +8,7 @@
 
 ## 📸 Banner
 <p align="center">
-    <img src="food_dairy_app_banner.png" alt="NutriTrack Banner" width="100%"/>
+    <img src="screenshots/food_dairy_app_banner.png" alt="NutriTrack Banner" width="100%"/>
 </p>
 
 <p align="center">
